@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>add recipe</title>
-</head>
+    <head th:replace="~{layout :: page_head}">
+        <title>Add recipe page</title>
+    </head>
 <h1>Add recipe!
     I need to add ingredents whick can vary based on input arrrr!!!!(have a add another ingredent button then submit???)
     add author of recipe!!!!
     need to be logged in to see this page!!!!
 </h1>
 <body>
+    <nav th:replace="~{layout :: page_navbar}"></nav>
     <form action='#' th:action="@{/addRecipe}" th:object="${recipe}" method="post">
         <p>Recipe Name: <input type="text" th:field="*{recipeName}" /></p>
 

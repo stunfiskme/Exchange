@@ -1,10 +1,10 @@
  <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Recipes</title>
+<head th:replace="~{layout :: page_head}">
+    <title>Recipes page</title>
 </head>
 <body>
+    <nav th:replace="~{layout :: page_navbar}"></nav>
     <a href="/addRecipe">add Recipe</a>
     <div th:switch="${Recipe}">
         <h2 th:case="null">No recipes yet!</h2>
