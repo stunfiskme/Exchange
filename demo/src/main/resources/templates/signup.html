@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>signup</title>
-</head>
+    <head th:replace="~{layout :: page_head}">
+        <title>Sign up page</title>
+    </head>
 <h1>Sign up here!</h1>
 <body>
+    <nav th:replace="~{layout :: page_navbar}"></nav>
     <form action='#' th:action="@{/signup}" th:object="${ua}" method="post">
         <p>Email: <input type="text" th:field="*{email}" /></p>
         <p>First name: <input type="text" th:field="*{firstName}" /></p>
