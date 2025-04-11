@@ -15,7 +15,7 @@ import com.example.demo.repository.UserRepository;
 @Controller
 public class RegistrationController {
     @Autowired
-    private UserRepository userRepository;
+    private UserRepository userRepository;//change to service!
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -25,10 +25,11 @@ public String signUpPage(Model model) {
     model.addAttribute("ua", new UserAccounts());
         return "signup";
     }
-//fix mapping?
+
     @PostMapping("/signup")
     public String createUserAccount(@ModelAttribute UserAccounts ua, Model model ){
         ua.setPassword(passwordEncoder.encode(ua.getPassword()));
+        ua.setRole("USER");
  userRepository.save(ua);
  return "index";
     }

@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,5 +18,6 @@ public class UserAccounts{
     private String firstName;
     private String LastName;
     private String phoneNumber;
+    @ColumnDefault("USER")
     private String role;
 }

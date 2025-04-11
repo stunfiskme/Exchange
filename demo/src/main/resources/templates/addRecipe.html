@@ -3,11 +3,6 @@
     <head th:replace="~{layout :: page_head}">
         <title>Add recipe page</title>
     </head>
-<h1>Add recipe!
-    I need to add ingredents whick can vary based on input arrrr!!!!(have a add another ingredent button then submit???)
-    add author of recipe!!!!
-    need to be logged in to see this page!!!!
-</h1>
 <body>
     <nav th:replace="~{layout :: page_navbar}"></nav>
     <form action='#' th:action="@{/addRecipe}" th:object="${recipe}" method="post">
@@ -23,6 +18,10 @@
 
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"></input>
     </form>
-   
+    <h1>Add recipe!
+        I need to add ingredents whick can vary based on input arrrr!!!!(have a add another ingredent button then submit???)
+        add author of recipe!!!!
+        need to be logged in to see this page!!!!
+    </h1>
 </body>
 </html>

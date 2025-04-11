@@ -24,7 +24,7 @@ private UserAccountsDetailsService userAccountsDetailsService;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         return http.authorizeHttpRequests(authorize -> {
-            authorize.requestMatchers("/**", "/signUp/**", "/recipes").permitAll();
+            authorize.requestMatchers("/", "/signup/**", "/recipes").permitAll();
             authorize.requestMatchers("/addRecipe").hasAnyRole("USER", "ADMIN");
             authorize.anyRequest().authenticated();
         }).formLogin(AbstractAuthenticationFilterConfigurer::permitAll).build();
