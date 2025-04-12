@@ -73,6 +73,17 @@
     <artifactId>bcprov-jdk15to18</artifactId>
     <version>1.70</version>
 </dependency>
+<dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>jquery</artifactId>
+            <version>2.2.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>3.3.7</version>
+        </dependency>
 
 		<dependency>
     <groupId>org.postgresql</groupId>

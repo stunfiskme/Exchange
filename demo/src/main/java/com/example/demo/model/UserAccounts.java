@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import java.util.List;
+
 import org.hibernate.annotations.ColumnDefault;
 
 import jakarta.persistence.*;
@@ -12,7 +14,7 @@ import lombok.Setter;
 public class UserAccounts{
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long user_id; 
+    private Long id; 
     private String email;
     private String password;
     private String firstName;
@@ -20,4 +22,6 @@ public class UserAccounts{
     private String phoneNumber;
     @ColumnDefault("USER")
     private String role;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Recipe> recipes;
 }

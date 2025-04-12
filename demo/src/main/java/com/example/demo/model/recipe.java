@@ -5,19 +5,25 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
+
 @Getter
 @Setter
+@Entity
 public class Recipe{
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long recipe_id;
+    private Long id;
     private String recipeName;
     @Column(columnDefinition = "TEXT")
     private String description;
     @Column(columnDefinition = "TEXT")
     private String instructions;
 
+    //
+    @ManyToOne
+    @JoinColumn(name = "Author") 
+    private UserAccounts userAccount;
+    //
     @OneToMany(cascade = CascadeType.ALL)
     private List<Ingredients> ingredients;
 }

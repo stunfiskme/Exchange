@@ -1,0 +1,12 @@
+td {
+    padding: 20px;
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 20px;
+}
+
+body {
+    background-color: aquamarine;
+}
