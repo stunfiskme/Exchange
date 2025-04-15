@@ -3,7 +3,6 @@
     <head th:replace="~{layout :: page_head}">
         <title>Sign up page</title>
     </head>
-<h1>Sign up here!</h1>
 <body>
     <nav th:replace="~{layout :: page_navbar}"></nav>
     <form action='#' th:action="@{/signup}" th:object="${ua}" method="post">

@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -19,11 +20,11 @@ public class Recipe{
     @Column(columnDefinition = "TEXT")
     private String instructions;
 
-    //
+    //fk to UserAccounts
     @ManyToOne
-    @JoinColumn(name = "Author") 
+    @JoinColumn(name = "UserAccounts_id") 
     private UserAccounts userAccount;
     //
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Ingredients> ingredients;
+    @OneToMany( mappedBy = "recipe", cascade = CascadeType.ALL)
+    private List<Ingredients> ingredients = new ArrayList<>();
 }

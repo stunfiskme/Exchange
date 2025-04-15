@@ -4,10 +4,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.model.Recipe;
 import com.example.demo.repository.RecipeRepository;
+
+import security.CustomUserDetails;
 
 @Service
 public class RecipeService {
@@ -15,6 +19,9 @@ public class RecipeService {
     private RecipeRepository recipeRepository;
 
     public Recipe saveRecipe(Recipe r){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        r.setUserAccount(userDetails.getUser());
         return recipeRepository.save(r);
     }
 
