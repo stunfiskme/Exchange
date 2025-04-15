@@ -11,11 +11,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.example.demo.model.UserAccounts;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.service.UserAccountsDetailsService;
 
 @Controller
 public class RegistrationController {
     @Autowired
-    private UserRepository userRepository;
+    private UserAccountsDetailsService userAccountsDetailsService;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -25,11 +26,11 @@ public String signUpPage(Model model) {
     model.addAttribute("ua", new UserAccounts());
         return "signup";
     }
-//fix mapping?
+
     @PostMapping("/signup")
-    public String createUserAccount(@ModelAttribute UserAccounts ua, Model model ){
+    public String createUserAccount(@ModelAttribute UserAccounts ua, Model model ) throws Exception{
         ua.setPassword(passwordEncoder.encode(ua.getPassword()));
- userRepository.save(ua);
+        userAccountsDetailsService.save(ua);
  return "index";
     }
 }

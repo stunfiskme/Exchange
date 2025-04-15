@@ -1,5 +1,31 @@
-<p>View a single recipe</p>
+<!DOCTYPE html>
 <head th:replace="~{layout :: page_head}">
     <title>Recipe page</title>
+    <link  rel="stylesheets" th:href="@{/css/recipe.css}"/>
 </head>
 <nav th:replace="~{layout :: page_navbar}"></nav>
+<div>
+            <h2 th:text="${recipe.recipeName}"></h2>
+            
+            <p th:text="${recipe.description}"></p>
+            <h2>Instructions</h2>
+            <p th:text="${recipe.instructions}"></p>    
+</div>
+<div th:switch="${ingredient}">
+    <h2 th:case="null">Loading...</h2>
+        <div th:case="*">
+            <h2>Ingredients</h2>
+            <table>
+                <thead>
+                </thead>
+                <tbody>
+                <tr th:each="i : ${ingredient}">
+                    <td th:text="${i.amount}"></td>
+                    <td th:text="${i.unitName}"></td> 
+                    <td th:text="${i.ingredientName}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>     
+</div>
+<p>if admin of author give edit/delate rights!</p>

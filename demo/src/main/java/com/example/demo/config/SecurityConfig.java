@@ -8,10 +8,10 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractAuthenticationFilterConfigurer;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+
 import com.example.demo.service.UserAccountsDetailsService;
 
 @Configuration
@@ -24,10 +24,14 @@ private UserAccountsDetailsService userAccountsDetailsService;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         return http.authorizeHttpRequests(authorize -> {
-            authorize.requestMatchers("/**", "/signUp/**", "/recipes").permitAll();
+            authorize.requestMatchers("/", "/signup/**", "/recipes", "/css/**", "/js/**").permitAll();
             authorize.requestMatchers("/addRecipe").hasAnyRole("USER", "ADMIN");
             authorize.anyRequest().authenticated();
-        }).formLogin(AbstractAuthenticationFilterConfigurer::permitAll).build();
+        }).formLogin(HttpSecurityFormLoginConfigurer -> {
+          HttpSecurityFormLoginConfigurer.loginPage("/login").
+          defaultSuccessUrl("/").permitAll();
+        }).logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/").permitAll())
+        .build();
     }
 
   @Bean

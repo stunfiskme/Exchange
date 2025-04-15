@@ -14,15 +14,14 @@
                     <thead>
                         <tr>
                             <th>Name</th>
-                            <th>Description</th>
-                            <th>Instruction</th>
+                            <th>link</th>
                         </tr>
                     </thead>
                     <tbody>
                     <tr th:each="recipe : ${Recipe}">
                         <td th:text="${recipe.recipeName}"></td>
-                        <td th:text="${recipe.description}"></td>
-                        <td th:text="${recipe.instructions}"></td>
+                        <td> <a th:href="@{'/recipe/' + ${recipe.id}}"
+                            class="btn btn-primary">link</a></td>
                     </tr>
                 </tbody>
             </table>
