@@ -7,6 +7,6 @@ table {
     border-spacing: 20px;
 }
 
-body {
-    background-color: aquamarine;
+.Title {
+    text-align: center;
 }
