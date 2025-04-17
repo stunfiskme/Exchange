@@ -28,4 +28,9 @@ public class IngredientService {
             throw new Exception("Ingredients not Found!");
         }
     }
+
+    //delete
+    public void deleteById(Long id){
+        ingredientsRepository.deleteById(id);
+    }
 }
