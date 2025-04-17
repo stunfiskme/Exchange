@@ -4,9 +4,9 @@ td {
 
 table {
     border-collapse: separate;
-    border-spacing: 20px;
+    border-spacing: 10px;
 }
 
-body {
-    background-color: aquamarine;
+.Title {
+    text-align: center;
 }

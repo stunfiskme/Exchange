@@ -1,31 +1,67 @@
 <!DOCTYPE html>
-<head th:replace="~{layout :: page_head}">
+<html lang="en">
+<head>
+    <div th:replace="~{layout :: page_head}"></div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/deleteIngredient.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
     <title>Recipe page</title>
-    <link  rel="stylesheets" th:href="@{/css/recipe.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" 
+    href="/css/recipe.css" th:href="@{/css/recipe.css}" />
+    
 </head>
-<nav th:replace="~{layout :: page_navbar}"></nav>
+<header>
+    <nav th:replace="~{layout :: page_navbar}"></nav>
+</header>
+<body>
+    <input type="hidden" id="csrfToken" th:value="${_csrf.token}"/>
+    <input type="hidden" id="csrfHeader" th:value="${_csrf.headerName}"/>
+    
 <div>
-            <h2 th:text="${recipe.recipeName}"></h2>
-            
+    <div class="Title">
+            <h1 th:text="${recipe.recipeName}"></h1>
             <p th:text="${recipe.description}"></p>
+            <p>By: <span th:text="${recipe.userAccount.getLastName()}"></span>  
+                <span  th:text="${recipe.userAccount.getFirstName()}"></span></p>
+            </div>
+
+
+
+            <div th:switch="${ingredient}">
+                <h2 th:case="null">Loading...</h2>
+                    <div th:case="*">
+                        <h2>Ingredients</h2>
+                        <table>
+                            <thead>
+                            </thead>
+                            <tbody>
+                            <tr th:each="i : ${ingredient}">
+                                <td th:text="${i.amount}"></td>
+                                <td th:text="${i.unitName}"></td> 
+                                <td th:text="${i.ingredientName}"></td>
+                                <td th:text="${i.id}"></td>
+                                <td><a class="btn btn-primary">Update</a></td>
+                                <td>
+                                    <button
+                                    class="btn btn-danger delete-btn"
+                                    th:attr="data-id=${i.id}">
+                                    Delete
+                                  </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>     
+            </div>
+
             <h2>Instructions</h2>
             <p th:text="${recipe.instructions}"></p>    
 </div>
-<div th:switch="${ingredient}">
-    <h2 th:case="null">Loading...</h2>
-        <div th:case="*">
-            <h2>Ingredients</h2>
-            <table>
-                <thead>
-                </thead>
-                <tbody>
-                <tr th:each="i : ${ingredient}">
-                    <td th:text="${i.amount}"></td>
-                    <td th:text="${i.unitName}"></td> 
-                    <td th:text="${i.ingredientName}"></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>     
-</div>
-<p>if admin of author give edit/delate rights!</p>
+
+<p>if admin or author give edit/delate rights!</p>
+<p>add an ingredient</p>
+</body>
+
+</html>

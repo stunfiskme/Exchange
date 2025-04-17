@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import com.example.demo.service.UserAccountsDetailsService;
 
@@ -24,7 +25,7 @@ private UserAccountsDetailsService userAccountsDetailsService;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         return http.authorizeHttpRequests(authorize -> {
-            authorize.requestMatchers("/", "/signup/**", "/recipes", "/css/**", "/js/**").permitAll();
+            authorize.requestMatchers("/", "/signup/**", "/recipes", "/css/**", "/js/**", "/recipe", "/recipe/delete/**").permitAll();
             authorize.requestMatchers("/addRecipe").hasAnyRole("USER", "ADMIN");
             authorize.anyRequest().authenticated();
         }).formLogin(HttpSecurityFormLoginConfigurer -> {
