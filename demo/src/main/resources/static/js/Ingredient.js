@@ -57,11 +57,11 @@ $(document).ready(function () {
             },
             data: JSON.stringify(payload),
             success: function (response) {
-                console.log('Success:', response);
+                //console.log('Success:', response);
                 row.css('background-color', '#d4f7d4');
             },
             error: function (xhr, status, error) {
-                console.error('Error:', error);
+                //console.error('Error:', error);
                 row.css('background-color', '#f8d7da');
             }
         });

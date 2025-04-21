@@ -6,23 +6,69 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" media="all" 
          hef="/css/addIngredients.css" th:href="@{/css/addIngredients.css}" />
+         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+         <script src="/js/Ingredient.js" defer></script>
         <title>Add ingredients page</title>
     </head>
+    <header>
+        <nav th:insert="~{layout :: page_navbar}"></nav>
+        </header>
 <body>
-    <nav th:replace="~{layout :: page_navbar}"></nav>
+    <input type="hidden" id="csrfToken" th:value="${_csrf.token}"/>
+    <input type="hidden" id="csrfHeader" th:value="${_csrf.headerName}"/>
+   <div class="ingredient-container">
+        <h2> Add Ingredients</h2>
     <form action='#' th:action="@{'/addIngredients/' + ${id}}" th:object="${ingredients}" method="post">
-        <p>Ingredient Name: <input type="text" th:field="*{ingredientName}" /></p>
-
-       <p><label for="Amount">Amount: </label></p>
-        <p><textarea id="Amount" th:field="*{amount}"></textarea></p>
-
-        <p><label for="Units">Units: </label></p>
-        <textarea id="Units" th:field="*{unitName}" ></textarea>
-        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+        <div class="form-group">
+                <label for="ingredientName">Ingredient Name</label>
+                <input type="text" th:field="*{ingredientName}" name="ingredientName" required>
+            </div>
+            <div class="form-group">
+                <label for="amount">Amount</label>
+                <input type="text" th:field="*{amount}" name="amount" required>
+            </div>
+            <div class="form-group">
+                <label for="unitName">Units</label>
+                <input type="text" th:field="*{unitName}" name="unitName" required>
+            </div>
+        <p><input class="f-button" type="submit" value="Submit" /> <input class="f-button" type="reset" value="Reset" /></p>
 
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"></input>
     </form>
-    <p>todo: show ingredients being added!, when done redirect to that spefic recipe page!
-    </p>
+    <a class="f-button" th:href="@{'/recipe/' + ${id}}">Done</a>
+    </div>
+        <div class="ingredient-list" th:switch="${ingredient}">
+            <h2>Ingredients</h2>
+            <h2 th:case="null">Loading...</h2>
+                    <div th:case="*">
+                        <table>
+                            <thead>
+                            </thead>
+                            <tbody>
+                            <tr th:each="i : ${ingredient}">
+                                <td class="editable amount-cell" th:text="${i.amount}"></td>
+                                <td class="editable unitName-cell" th:text="${i.unitName}"></td> 
+                                <td class="editable ingredientName-cell" th:text="${i.ingredientName}"></td>
+                                <td>
+                                    <button
+                                    class="btn btn-primary update-btn"
+                                    th:attr="data-id=${i.id}">
+                                    Update
+                                  </button>
+                                </td>
+                                <td>
+                                    <button
+                                    class="btn btn-danger delete-btn"
+                                    th:attr="data-id=${i.id}">
+                                    Delete
+                                  </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>     
+            </div>
+        </div>
+    
 </body>
 </html>

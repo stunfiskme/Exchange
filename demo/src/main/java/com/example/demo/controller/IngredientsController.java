@@ -30,9 +30,10 @@ public class IngredientsController {
 
     //get addIngredients page
     @GetMapping("/addIngredients/{recipe_id}")
-    public String addIngredientsForm(Model model, @PathVariable Long recipe_id){
+    public String addIngredientsForm(Model model, @PathVariable Long recipe_id) throws Exception{
         model.addAttribute("id", recipe_id);
         model.addAttribute("ingredients", new Ingredients());
+        model.addAttribute("ingredient", ingredientService.getByRecipe_id(recipe_id));
         return "addIngredients";
     }
 
