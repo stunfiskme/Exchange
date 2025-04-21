@@ -3,7 +3,7 @@
 <head>
     <div th:replace="~{layout :: page_head}"></div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="/js/deleteIngredient.js" defer></script>
+    <script src="/js/Ingredient.js" defer></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
@@ -32,17 +32,22 @@
             <div th:switch="${ingredient}">
                 <h2 th:case="null">Loading...</h2>
                     <div th:case="*">
-                        <h2>Ingredients</h2>
+                        <h2>Ingredients <a class="btn btn-primary" th:href="@{/addIngredients/{id}(id=${recipe.id})}">Add</a></h2> 
                         <table>
                             <thead>
                             </thead>
                             <tbody>
                             <tr th:each="i : ${ingredient}">
-                                <td th:text="${i.amount}"></td>
-                                <td th:text="${i.unitName}"></td> 
-                                <td th:text="${i.ingredientName}"></td>
-                                <td th:text="${i.id}"></td>
-                                <td><a class="btn btn-primary">Update</a></td>
+                                <td class="editable amount-cell" th:text="${i.amount}"></td>
+                                <td class="editable unitName-cell" th:text="${i.unitName}"></td> 
+                                <td class="editable ingredientName-cell" th:text="${i.ingredientName}"></td>
+                                <td>
+                                    <button
+                                    class="btn btn-primary update-btn"
+                                    th:attr="data-id=${i.id}">
+                                    Update
+                                  </button>
+                                </td>
                                 <td>
                                     <button
                                     class="btn btn-danger delete-btn"
@@ -55,13 +60,13 @@
                     </table>
                 </div>     
             </div>
-
+<div>
             <h2>Instructions</h2>
-            <p th:text="${recipe.instructions}"></p>    
+            <p th:text="${recipe.instructions}"></p>  
+</div>  
 </div>
 
 <p>if admin or author give edit/delate rights!</p>
-<p>add an ingredient</p>
 </body>
 
 </html>

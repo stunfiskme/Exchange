@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="~{layout :: page_head}">
+    <head>
+        <div th:replace="~{layout :: page_head}"></div>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" media="all" 
+         hef="/css/addIngredients.css" th:href="@{/css/addIngredients.css}" />
         <title>Add ingredients page</title>
     </head>
 <body>

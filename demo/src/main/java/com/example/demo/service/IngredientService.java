@@ -29,6 +29,11 @@ public class IngredientService {
         }
     }
 
+    //get by id
+    public Ingredients getIngredient(Long id){
+        return ingredientsRepository.getReferenceById(id);
+    }
+
     //delete
     public void deleteById(Long id){
         ingredientsRepository.deleteById(id);

@@ -15,7 +15,7 @@ public class Ingredients{
     private Long id;
     private String ingredientName;
     private String unitName;
-    private double amount;
+    private String amount;
 
     //fk!
     @ManyToOne

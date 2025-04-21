@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -26,6 +28,7 @@ public class IngredientsController {
     @Autowired
     private IngredientService ingredientService;
 
+    //get addIngredients page
     @GetMapping("/addIngredients/{recipe_id}")
     public String addIngredientsForm(Model model, @PathVariable Long recipe_id){
         model.addAttribute("id", recipe_id);
@@ -33,6 +36,7 @@ public class IngredientsController {
         return "addIngredients";
     }
 
+    //add an ingredient and refresh page, //change later
     @PostMapping("/addIngredients/{recipe_id}")
     public String addIngredientsToDb
     (@ModelAttribute Ingredients ingredients, Model model, @PathVariable Long recipe_id) 
@@ -42,18 +46,24 @@ public class IngredientsController {
         return  "redirect:/addIngredients/" + recipe_id;
     }
 
-    @PatchMapping("/recipe/update/{ingredient_id}")
-    public String updateIngredientForm(){
-        //look up db row
-        //use form to make changes
-        return "index";//change to form
+    //update an ingredient
+    @PutMapping("/ingredient/update/{ingredient_id}")
+    @ResponseBody
+    public ResponseEntity<String> updateIngredientForm(@RequestBody Ingredients ingredientDetails , @PathVariable Long ingredient_id){
+        Ingredients ingredient = ingredientService.getIngredient(ingredient_id);
+        ingredient.setAmount(ingredientDetails.getAmount());
+        ingredient.setIngredientName(ingredientDetails.getIngredientName());
+        ingredient.setUnitName(ingredientDetails.getUnitName());
+        ingredientService.saveIngredient(ingredient);
+        return new ResponseEntity<String>("Ingredient updated successfully!", HttpStatus.OK); 
     }
 
+    //delete an ingredient
     @DeleteMapping("/recipe/delete/{ingredient_id}")
-@ResponseBody
-public ResponseEntity<String> deleteIngredient(@PathVariable("ingredient_id") Long ingredient_id){
-    ingredientService.deleteById(ingredient_id);
-    return new ResponseEntity<String>("Ingredient deleted successfully!", HttpStatus.OK); 
+    @ResponseBody
+    public ResponseEntity<String> deleteIngredient(@PathVariable("ingredient_id") Long ingredient_id){
+        ingredientService.deleteById(ingredient_id);
+        return new ResponseEntity<String>("Ingredient deleted successfully!", HttpStatus.OK); 
 }
 
 }
