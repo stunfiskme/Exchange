@@ -6,7 +6,8 @@
     <script src="/js/Ingredient.js" defer></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+    <meta name="_csrf"       th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
     <title>Recipe page</title>
     <link rel="stylesheet" type="text/css" media="all" 
     href="/css/recipe.css" th:href="@{/css/recipe.css}" />
@@ -16,50 +17,27 @@
     <nav th:replace="~{layout :: page_navbar}"></nav>
 </header>
 <body>
-    <input type="hidden" id="csrfToken" th:value="${_csrf.token}"/>
-    <input type="hidden" id="csrfHeader" th:value="${_csrf.headerName}"/>
-    
 <div>
-    <div class="Title">
+    <div class="Title"> 
             <h1 th:text="${recipe.recipeName}"></h1>
             <p th:text="${recipe.description}"></p>
             <p>By: <span th:text="${recipe.userAccount.getLastName()}"></span>  
                 <span  th:text="${recipe.userAccount.getFirstName()}"></span></p>
             </div>
-
-
-
-            <div th:switch="${ingredient}">
-                <h2 th:case="null">Loading...</h2>
-                    <div th:case="*">
-                        <h2>Ingredients <a class="btn btn-primary" th:href="@{/addIngredients/{id}(id=${recipe.id})}">Add</a></h2> 
-                        <table>
-                            <thead>
-                            </thead>
-                            <tbody>
-                            <tr th:each="i : ${ingredient}">
-                                <td class="editable amount-cell" th:text="${i.amount}"></td>
-                                <td class="editable unitName-cell" th:text="${i.unitName}"></td> 
-                                <td class="editable ingredientName-cell" th:text="${i.ingredientName}"></td>
-                                <td>
-                                    <button
-                                    class="btn btn-primary update-btn"
-                                    th:attr="data-id=${i.id}">
-                                    Update
-                                  </button>
-                                </td>
-                                <td>
-                                    <button
-                                    class="btn btn-danger delete-btn"
-                                    th:attr="data-id=${i.id}">
-                                    Delete
-                                  </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>     
-            </div>
+            <input type="hidden" id="recipeId" th:value="${recipe.getId()}">
+ <!-- Items will be appended by /js/Ingredient.js -->
+            <div class="ingredient-list">
+                <h2>Ingredients <a class="btn btn-primary" th:href="@{/addIngredients/{id}(id=${recipe.id})}">Add</a></h2> 
+                            <table id="ingredientsTable">
+                                <thead>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <!-- Items will be appended here by /js/Ingredient.js -->
+                                </tr>
+                            </tbody>
+                        </table>   
+                    </div>
 <div>
             <h2>Instructions</h2>
             <p th:text="${recipe.instructions}"></p>  

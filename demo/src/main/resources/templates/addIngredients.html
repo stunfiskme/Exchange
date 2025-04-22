@@ -4,6 +4,8 @@
         <div th:replace="~{layout :: page_head}"></div>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="_csrf"       th:content="${_csrf.token}" />
+        <meta name="_csrf_header" th:content="${_csrf.headerName}" />
         <link rel="stylesheet" type="text/css" media="all" 
          hef="/css/addIngredients.css" th:href="@{/css/addIngredients.css}" />
          <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -14,61 +16,37 @@
         <nav th:insert="~{layout :: page_navbar}"></nav>
         </header>
 <body>
-    <input type="hidden" id="csrfToken" th:value="${_csrf.token}"/>
-    <input type="hidden" id="csrfHeader" th:value="${_csrf.headerName}"/>
    <div class="ingredient-container">
         <h2> Add Ingredients</h2>
-    <form action='#' th:action="@{'/addIngredients/' + ${id}}" th:object="${ingredients}" method="post">
+    <form  th:object="${ingredients}" id="ingredient-form" method="post" action='#'>
+        <input type="hidden" id="recipeId" th:value="${id}">
         <div class="form-group">
                 <label for="ingredientName">Ingredient Name</label>
-                <input type="text" th:field="*{ingredientName}" name="ingredientName" required>
+                <input type="text" th:field="*{ingredientName}" id="ingredientName" required>
             </div>
             <div class="form-group">
                 <label for="amount">Amount</label>
-                <input type="text" th:field="*{amount}" name="amount" required>
+                <input type="text" th:field="*{amount}" id="amount" required>
             </div>
             <div class="form-group">
                 <label for="unitName">Units</label>
-                <input type="text" th:field="*{unitName}" name="unitName" required>
+                <input type="text" th:field="*{unitName}" id="unitName" required>
             </div>
-        <p><input class="f-button" type="submit" value="Submit" /> <input class="f-button" type="reset" value="Reset" /></p>
-
-        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"></input>
-    </form>
+        <p><input class="f-button addIngredientBtn" type="submit" value="Submit" /> <input class="f-button" type="reset" value="Reset" /></p>
+    </form> 
     <a class="f-button" th:href="@{'/recipe/' + ${id}}">Done</a>
     </div>
-        <div class="ingredient-list" th:switch="${ingredient}">
+        <div class="ingredient-list">
             <h2>Ingredients</h2>
-            <h2 th:case="null">Loading...</h2>
-                    <div th:case="*">
-                        <table>
+                        <table id="ingredientsTable">
                             <thead>
                             </thead>
                             <tbody>
-                            <tr th:each="i : ${ingredient}">
-                                <td class="editable amount-cell" th:text="${i.amount}"></td>
-                                <td class="editable unitName-cell" th:text="${i.unitName}"></td> 
-                                <td class="editable ingredientName-cell" th:text="${i.ingredientName}"></td>
-                                <td>
-                                    <button
-                                    class="btn btn-primary update-btn"
-                                    th:attr="data-id=${i.id}">
-                                    Update
-                                  </button>
-                                </td>
-                                <td>
-                                    <button
-                                    class="btn btn-danger delete-btn"
-                                    th:attr="data-id=${i.id}">
-                                    Delete
-                                  </button>
-                                </td>
+                            <tr>
+                                <!-- Items will be appended here by /js/Ingredient.js -->
                             </tr>
                         </tbody>
-                    </table>
-                </div>     
-            </div>
-        </div>
-    
+                    </table>   
+                </div>
 </body>
 </html>
