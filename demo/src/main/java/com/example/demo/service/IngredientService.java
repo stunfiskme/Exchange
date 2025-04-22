@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.DTO.IngredientView;
 import com.example.demo.model.Ingredients;
 import com.example.demo.repository.IngredientsRepository;
 
@@ -15,18 +16,20 @@ public class IngredientService {
     @Autowired
     private IngredientsRepository ingredientsRepository;
 
+    //save
     public Ingredients saveIngredient(Ingredients i){
        return ingredientsRepository.save(i);
     }
 
-     public List<Ingredients> getByRecipe_id(Long id) throws Exception{
-        Optional<List<Ingredients>> ingredients = ingredientsRepository.findByRecipeId(id);
-        if(ingredients.isPresent()){
-        return ingredients.get();
+    //get all for a recipe
+     public List<IngredientView> getByRecipe_id(Long id) throws Exception{
+        List<IngredientView> ingredients = ingredientsRepository.findByRecipeId(id);
+        return ingredients;
     }
-        else{
-            throw new Exception("Ingredients not Found!");
-        }
+
+    //get by id
+    public Ingredients getIngredient(Long id){
+        return ingredientsRepository.getReferenceById(id);
     }
 
     //delete
