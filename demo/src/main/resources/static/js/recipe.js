@@ -1,5 +1,29 @@
 $(document).ready(function () {
+//delete button 
+$('body').on('click', '.delete-recipe-btn', function (e) {
+    e.preventDefault();
 
+    const button = $(this);
+    const recipeId = $('#recipeId').val();
+    const csrfHeader = $('meta[name="_csrf_header"]').attr('content');
+    const csrfToken  = $('meta[name="_csrf"]').attr('content');
+
+    $.ajax({
+        url: `/recipe/delete/${recipeId}`,
+        type: "DELETE",
+        headers: {
+            [csrfHeader]: csrfToken
+        },
+        success: function (result) {
+            window.location.href = "/recipes";
+        },
+        error: function (err) {
+            console.error("Error:", err);
+            alert("Something went wrong.");
+        }
+    });
+    
+});
 //update button logic  
 $('body').on('click', '.instruction-update-btn', function (e) {
     e.preventDefault(); 

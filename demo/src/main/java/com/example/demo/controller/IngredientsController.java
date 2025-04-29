@@ -62,6 +62,7 @@ public class IngredientsController {
         return  new ResponseEntity<>(dto, HttpStatus.OK); 
     }
 
+    //move logic to service!
     //update an ingredient
     @PutMapping("/ingredient/update/{ingredient_id}")
     @ResponseBody
@@ -75,7 +76,7 @@ public class IngredientsController {
     }
 
     //delete an ingredient
-    @DeleteMapping("/recipe/delete/{ingredient_id}")
+    @DeleteMapping("/ingredient/delete/{ingredient_id}")
     @ResponseBody
     public ResponseEntity<String> deleteIngredient(@PathVariable("ingredient_id") Long ingredient_id){
         ingredientService.deleteById(ingredient_id);

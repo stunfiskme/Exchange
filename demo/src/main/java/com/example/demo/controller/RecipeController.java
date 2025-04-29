@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -71,10 +72,17 @@ public class RecipeController {
 
     //update instructions for a recipe
     @PatchMapping("/recipe/update/{recipeId}")
-    @ResponseBody
     public ResponseEntity<String> updateInstructions(@PathVariable Long recipeId, @RequestBody Map<String, String> instructions){
         String updatedInstructions = instructions.get("instructions");
 recipeService.patchRecipeInstructions(recipeId, updatedInstructions);
         return new ResponseEntity<String>("Instructions updated successfully!", HttpStatus.OK); 
+    }
+
+    //delete a recipe
+    @DeleteMapping("/recipe/delete/{recipeId}")
+    @ResponseBody
+    public  ResponseEntity<String> deleteRecipe(@PathVariable Long recipeId){
+        recipeService.deleteRecipe(recipeId);
+        return new ResponseEntity<String>("Recipe deleted successfully!", HttpStatus.OK); 
     }
 }

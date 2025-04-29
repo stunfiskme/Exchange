@@ -9,7 +9,7 @@ $(document).ready(function () {
         const csrfToken  = $('meta[name="_csrf"]').attr('content');
 
         $.ajax({
-            url: `/recipe/delete/${ingredientId}`,
+            url: `/ingredient/delete/${ingredientId}`,
             type: "DELETE",
             headers: {
                 [csrfHeader]: csrfToken

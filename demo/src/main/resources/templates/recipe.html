@@ -20,9 +20,11 @@
 <div>
     <div class="Title"> 
             <h1 th:text="${recipe.recipeName}"></h1>
+            <button class="btn btn-danger delete-recipe-btn">Delete</button>
             <p th:text="${recipe.description}"></p>
-            <p>By: <span th:text="${recipe.userAccount.getLastName()}"></span>  
-                <span  th:text="${recipe.userAccount.getFirstName()}"></span></p>
+            <p>By: <span  th:text="${recipe.userAccount.getFirstName()}"></span>
+                  <span th:text="${recipe.userAccount.getLastName()}"></span>  
+            </p>
             </div>
             <input type="hidden" id="recipeId" th:value="${recipe.getId()}">
  <!-- Items will be appended by /js/Ingredient.js -->
