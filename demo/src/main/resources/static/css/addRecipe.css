@@ -4,7 +4,7 @@
 top: 0;
 bottom: 0;
 left: 0;
-right: 5;
+right: 5px;
 margin: 200px 20px 30px 300px;
     padding: 20px;
     background-color: white;
@@ -30,4 +30,17 @@ margin: 200px 20px 30px 300px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 14px;
+}
+html ,body{
+    background-color:rgba(199, 214, 225, 0.49);
+}
+#description {
+    display: block;
+    overflow: hidden;
+    resize: none;
+}
+#instructions {
+    display: block;
+    overflow: hidden;
+    resize: none;
 }

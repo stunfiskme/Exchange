@@ -98,7 +98,6 @@ $(document).ready(function () {
         data: JSON.stringify(payload),
         success: function (response) {
              //get the new ingredient and add it to the table
-             //fix later wrong rn!
              console.log(response);
              addIngredientRow(response.id, response.ingredientName, response.amount, response.unitName);
             },
@@ -114,11 +113,11 @@ $(document).ready(function () {
 
 function addIngredientRow(id, ingredientName, amount, unitName) {
     var row = '<tr>' +
-    '<td class="editable amount-cell">' + i.amount + '</td>' +
-    '<td class="editable unitName-cell">' + i.unitName + '</td>' +
-    '<td class="editable ingredientName-cell">' + i.ingredientName + '</td>' +
-    '<td>' + '<button class="btn btn-primary update-btn"data-id="' + i.id + '">' + 'Update </button></td>' +
-    '<td>' + '<button class="btn btn-danger delete-btn" data-id="' + i.id + '">' + 'Delete </button></td>' 
+    '<td class="editable amount-cell">' + amount + '</td>' +
+    '<td class="editable unitName-cell">' + unitName + '</td>' +
+    '<td class="editable ingredientName-cell">' + ingredientName + '</td>' +
+    '<td>' + '<button class="btn btn-primary update-btn"data-id="' + id + '">' + 'Update </button></td>' +
+    '<td>' + '<button class="btn btn-danger delete-btn" data-id="' + id + '">' + 'Delete </button></td>' 
     '</tr>';
     $('#ingredientsTable tbody').append(row);
             }

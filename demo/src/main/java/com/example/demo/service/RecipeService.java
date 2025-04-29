@@ -38,4 +38,11 @@ public class RecipeService {
             throw new Exception("Recipe not Found!");
         }
     }
+
+    //update
+    public Recipe patchRecipeInstructions(Long id, String instructions){
+        Recipe r = recipeRepository.findById(id).orElseThrow();
+        r.setInstructions(instructions);
+        return recipeRepository.save(r);
+    }
 }
