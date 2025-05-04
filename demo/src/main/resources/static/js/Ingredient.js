@@ -9,7 +9,7 @@ $(document).ready(function () {
         const csrfToken  = $('meta[name="_csrf"]').attr('content');
 
         $.ajax({
-            url: `/ingredient/delete/${ingredientId}`,
+            url: `/api/ingredients/${ingredientId}`,
             type: "DELETE",
             headers: {
                 [csrfHeader]: csrfToken
@@ -49,7 +49,7 @@ $(document).ready(function () {
         const payload = { id, amount, unitName, ingredientName};
 
         $.ajax({
-            url: `/ingredient/update/${ingredientId}`,
+            url: `/api/ingredients/${ingredientId}`,
             type: "PUT",
             contentType: 'application/json',
             headers: {
@@ -91,14 +91,14 @@ $(document).ready(function () {
         const $table = $('#ingredientsTable');
         
     $.ajax({
-        url: `/addIngredients/${recipeId}`,
+        url: `/api/ingredients/${recipeId}`,
         type: "POST",
         contentType: 'application/json',
         beforeSend(xhr) { xhr.setRequestHeader(csrfHeader, csrfToken); },
         data: JSON.stringify(payload),
         success: function (response) {
              //get the new ingredient and add it to the table
-             console.log(response);
+             //console.log(response);
              addIngredientRow(response.id, response.ingredientName, response.amount, response.unitName);
             },
         error: function (err) {
@@ -130,7 +130,7 @@ function loadTable() {
     const $table = $('#ingredientsTable');
 
     $.ajax({
-        url: `/get/Ingredients/${recipeId}`,
+        url: `/api/ingredients/${recipeId}`,
         type: "GET",
         dataType: "json",
         contentType: 'application/json',

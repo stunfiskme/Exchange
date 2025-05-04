@@ -10,7 +10,7 @@ $('body').on('click', '.delete-recipe-btn', function (e) {
     const csrfToken  = $('meta[name="_csrf"]').attr('content');
 
     $.ajax({
-        url: `/recipe/delete/${recipeId}`,
+        url: `/api/recipes/${recipeId}`,
         type: "DELETE",
         headers: {
             [csrfHeader]: csrfToken
@@ -46,7 +46,7 @@ if (isEditing) {
     console.log(payload);
 
     $.ajax({
-        url: `/recipe/update/${recipeId}`,
+        url: `/api/recipes/instructions/${recipeId}`,
         type: "PATCH",
         contentType: 'application/json',
         headers: {
@@ -80,7 +80,7 @@ function loadInstructions() {
     const $div = $("#instruction-div");
 
     $.ajax({
-        url: `/recipe/get/instructions/${recipeId}`,
+        url: `/api/recipes/instructions/${recipeId}`,
         type: "GET",
         dataType: 'text',
         success: function (response) {

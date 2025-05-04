@@ -52,7 +52,7 @@ public class RecipeService {
     }
 
     //update the description for a recipe
-    public Recipe updateDecription(Long id, String description){
+    public Recipe updateDescription(Long id, String description){
         Recipe r = recipeRepository.findById(id).orElseThrow();
         r.setDescription(description);
         return recipeRepository.save(r);

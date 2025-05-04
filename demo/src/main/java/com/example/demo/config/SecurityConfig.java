@@ -24,7 +24,7 @@ private UserAccountsDetailsService userAccountsDetailsService;
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         return http.authorizeHttpRequests(authorize -> {
             authorize.requestMatchers("/", "/signup/**", "/recipes", "/css/**", "/js/**", "/recipe/**", "/recipe/delete/**"
-            , "/get/Ingredients/**", "/api/recipes/**").permitAll();
+            , "/api/recipes/**", "/api/ingredients/**").permitAll();
             authorize.requestMatchers("/addRecipe").hasAnyRole("USER", "ADMIN");
             authorize.anyRequest().authenticated();
         }).formLogin(HttpSecurityFormLoginConfigurer -> {

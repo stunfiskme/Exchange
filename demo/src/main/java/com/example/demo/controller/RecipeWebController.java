@@ -23,14 +23,14 @@ import com.example.demo.service.RecipeService;
 import org.springframework.ui.Model;
 
 @Controller
-public class RecipeController {
+public class RecipeWebController {
 
     @Autowired
     private RecipeService recipeService; 
     @Autowired
     private IngredientService ingredientService;
 
-    //get page for a single recipe
+    //get recipe.html
     @GetMapping("/recipe/{recipe_id}")
     public String recipePage(Model model,  @PathVariable Long recipe_id) throws Exception{
         //add handlers for null recipe
@@ -39,14 +39,14 @@ public class RecipeController {
         return "recipe";
     }
 
-    //get all recipes
+    //get recipes.html
     @GetMapping("/recipes")
     public String dynamicPage(Model model) {
         model.addAttribute("Recipe", recipeService.getAllRecipes());
         return "recipes";
     }
 
-    //get add recipe page
+    //get add recipe page 
     @GetMapping("/addRecipe")
     public String addRecipeForm(Model model){
         model.addAttribute("recipe", new Recipe());
@@ -54,35 +54,12 @@ public class RecipeController {
 
     }
    
-    //save a recipe to db and redirect to add recipe page
+    //save a recipe to db and redirect to addIngredients page
     @PostMapping("/addRecipe")
     public String addRecipeToDb(@ModelAttribute Recipe recipe, Model model){
         Recipe r = recipeService.saveRecipe(recipe);
         Long id = r.getId();
         return  "redirect:/addIngredients/" + id;
     }
-
-    //get instructions
-    @GetMapping("/recipe/get/instructions/{recipeId}")
-    @ResponseBody
-    public ResponseEntity<String> getInstructions(@PathVariable Long recipeId) throws Exception{
-        String i = recipeService.getById(recipeId).getInstructions();//change to view!
-        return new ResponseEntity<String>(i, HttpStatus.OK); 
-    }
-
-    //update instructions for a recipe
-    @PatchMapping("/recipe/update/{recipeId}")
-    public ResponseEntity<String> updateInstructions(@PathVariable Long recipeId, @RequestBody Map<String, String> instructions){
-        String updatedInstructions = instructions.get("instructions");
-recipeService.patchRecipeInstructions(recipeId, updatedInstructions);
-        return new ResponseEntity<String>("Instructions updated successfully!", HttpStatus.OK); 
-    }
-
-    //delete a recipe
-    @DeleteMapping("/recipe/delete/{recipeId}")
-    @ResponseBody
-    public  ResponseEntity<String> deleteRecipe(@PathVariable Long recipeId){
-        recipeService.deleteRecipe(recipeId);
-        return new ResponseEntity<String>("Recipe deleted successfully!", HttpStatus.OK); 
-    }
+    
 }

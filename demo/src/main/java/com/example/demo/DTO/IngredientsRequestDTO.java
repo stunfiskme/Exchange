@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class IngredientView {
+public class IngredientsRequestDTO {
     private Long id;
     private String ingredientName;
     private String unitName;
