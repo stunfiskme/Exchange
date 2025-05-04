@@ -18,10 +18,14 @@
 </header>
 <body>
 <div>
-    <div class="Title"> 
-            <h1 th:text="${recipe.recipeName}"></h1>
+    <div class="title-div"> 
+            <h1 th:text="${recipe.recipeName}" style="display: inline;"></h1>
             <button class="btn btn-danger delete-recipe-btn">Delete</button>
-            <p th:text="${recipe.description}"></p>
+            <br>
+            <div id="description-div" style="display: inline;">
+                  <!-- Description will be appended by /js/Ingredient.js -->
+            </div>
+            <button class="btn btn-primary description-update-btn" >Update</button>
             <p>By: <span  th:text="${recipe.userAccount.getFirstName()}"></span>
                   <span th:text="${recipe.userAccount.getLastName()}"></span>  
             </p>
@@ -42,7 +46,7 @@
                     </div>
 <div id="instruction-div">
             <h2>Instructions <button class="btn btn-primary instruction-update-btn">Update</button></h2>
-            
+             <!-- Instructions will be appended here by /js/recipe.js -->
 </div>  
 </div>
 

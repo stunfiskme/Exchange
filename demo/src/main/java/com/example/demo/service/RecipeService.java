@@ -50,4 +50,11 @@ public class RecipeService {
     public void deleteRecipe(Long id){
         recipeRepository.deleteById(id);
     }
+
+    //update the description for a recipe
+    public Recipe updateDecription(Long id, String description){
+        Recipe r = recipeRepository.findById(id).orElseThrow();
+        r.setDescription(description);
+        return recipeRepository.save(r);
+    }
 }
