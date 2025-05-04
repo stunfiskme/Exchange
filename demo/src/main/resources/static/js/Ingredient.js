@@ -9,7 +9,7 @@ $(document).ready(function () {
         const csrfToken  = $('meta[name="_csrf"]').attr('content');
 
         $.ajax({
-            url: `/recipe/delete/${ingredientId}`,
+            url: `/api/ingredients/${ingredientId}`,
             type: "DELETE",
             headers: {
                 [csrfHeader]: csrfToken
@@ -49,7 +49,7 @@ $(document).ready(function () {
         const payload = { id, amount, unitName, ingredientName};
 
         $.ajax({
-            url: `/ingredient/update/${ingredientId}`,
+            url: `/api/ingredients/${ingredientId}`,
             type: "PUT",
             contentType: 'application/json',
             headers: {
@@ -91,15 +91,14 @@ $(document).ready(function () {
         const $table = $('#ingredientsTable');
         
     $.ajax({
-        url: `/addIngredients/${recipeId}`,
+        url: `/api/ingredients/${recipeId}`,
         type: "POST",
         contentType: 'application/json',
         beforeSend(xhr) { xhr.setRequestHeader(csrfHeader, csrfToken); },
         data: JSON.stringify(payload),
         success: function (response) {
              //get the new ingredient and add it to the table
-             //fix later wrong rn!
-             console.log(response);
+             //console.log(response);
              addIngredientRow(response.id, response.ingredientName, response.amount, response.unitName);
             },
         error: function (err) {
@@ -114,11 +113,11 @@ $(document).ready(function () {
 
 function addIngredientRow(id, ingredientName, amount, unitName) {
     var row = '<tr>' +
-    '<td class="editable amount-cell">' + i.amount + '</td>' +
-    '<td class="editable unitName-cell">' + i.unitName + '</td>' +
-    '<td class="editable ingredientName-cell">' + i.ingredientName + '</td>' +
-    '<td>' + '<button class="btn btn-primary update-btn"data-id="' + i.id + '">' + 'Update </button></td>' +
-    '<td>' + '<button class="btn btn-danger delete-btn" data-id="' + i.id + '">' + 'Delete </button></td>' 
+    '<td class="editable amount-cell">' + amount + '</td>' +
+    '<td class="editable unitName-cell">' + unitName + '</td>' +
+    '<td class="editable ingredientName-cell">' + ingredientName + '</td>' +
+    '<td>' + '<button class="btn btn-primary update-btn"data-id="' + id + '">' + 'Update </button></td>' +
+    '<td>' + '<button class="btn btn-danger delete-btn" data-id="' + id + '">' + 'Delete </button></td>' 
     '</tr>';
     $('#ingredientsTable tbody').append(row);
             }
@@ -131,7 +130,7 @@ function loadTable() {
     const $table = $('#ingredientsTable');
 
     $.ajax({
-        url: `/get/Ingredients/${recipeId}`,
+        url: `/api/ingredients/${recipeId}`,
         type: "GET",
         dataType: "json",
         contentType: 'application/json',

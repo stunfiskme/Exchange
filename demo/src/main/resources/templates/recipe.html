@@ -4,6 +4,7 @@
     <div th:replace="~{layout :: page_head}"></div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/js/Ingredient.js" defer></script>
+    <script src="/js/recipe.js" defer></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="_csrf"       th:content="${_csrf.token}" />
@@ -11,18 +12,23 @@
     <title>Recipe page</title>
     <link rel="stylesheet" type="text/css" media="all" 
     href="/css/recipe.css" th:href="@{/css/recipe.css}" />
-    
 </head>
 <header>
     <nav th:replace="~{layout :: page_navbar}"></nav>
 </header>
 <body>
 <div>
-    <div class="Title"> 
-            <h1 th:text="${recipe.recipeName}"></h1>
-            <p th:text="${recipe.description}"></p>
-            <p>By: <span th:text="${recipe.userAccount.getLastName()}"></span>  
-                <span  th:text="${recipe.userAccount.getFirstName()}"></span></p>
+    <div class="title-div"> 
+            <h1 th:text="${recipe.recipeName}" style="display: inline;"></h1>
+            <button class="btn btn-danger delete-recipe-btn">Delete</button>
+            <br>
+            <div id="description-div" style="display: inline;">
+                  <!-- Description will be appended by /js/Ingredient.js -->
+            </div>
+            <button class="btn btn-primary description-update-btn" >Update</button>
+            <p>By: <span  th:text="${recipe.userAccount.getFirstName()}"></span>
+                  <span th:text="${recipe.userAccount.getLastName()}"></span>  
+            </p>
             </div>
             <input type="hidden" id="recipeId" th:value="${recipe.getId()}">
  <!-- Items will be appended by /js/Ingredient.js -->
@@ -38,9 +44,9 @@
                             </tbody>
                         </table>   
                     </div>
-<div>
-            <h2>Instructions</h2>
-            <p th:text="${recipe.instructions}"></p>  
+<div id="instruction-div">
+            <h2>Instructions <button class="btn btn-primary instruction-update-btn">Update</button></h2>
+             <!-- Instructions will be appended here by /js/recipe.js -->
 </div>  
 </div>
 

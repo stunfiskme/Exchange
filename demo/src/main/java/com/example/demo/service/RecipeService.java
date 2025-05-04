@@ -38,4 +38,23 @@ public class RecipeService {
             throw new Exception("Recipe not Found!");
         }
     }
+
+    //update instructions for a recipe
+    public Recipe patchRecipeInstructions(Long id, String instructions){
+        Recipe r = recipeRepository.findById(id).orElseThrow();
+        r.setInstructions(instructions);
+        return recipeRepository.save(r);
+    }
+
+    //delete a recipe
+    public void deleteRecipe(Long id){
+        recipeRepository.deleteById(id);
+    }
+
+    //update the description for a recipe
+    public Recipe updateDescription(Long id, String description){
+        Recipe r = recipeRepository.findById(id).orElseThrow();
+        r.setDescription(description);
+        return recipeRepository.save(r);
+    }
 }
