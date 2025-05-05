@@ -9,7 +9,6 @@
         <link rel="stylesheet" type="text/css" media="all" 
         hef="/css/addRecipe.css" th:href="@{/css/addRecipe.css}" />
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-         <script src="/js/addRecipe.js" defer></script>
         <title>Add recipe page</title>
     </head>
     <header>
@@ -24,12 +23,12 @@
         </div>
        <div class="form-group">
         <label for="description">Description</label>
-        <textarea th:field="*{description}" id="description" required></textarea>
+        <textarea class="description-textarea" th:field="*{description}" id="description" required></textarea>
     </div>
 
     <div class="form-group">
         <label for="instructions">Instructions</label>
-        <textarea th:field="*{instructions}" id="instructions" required></textarea>
+        <textarea class="scrollable-textarea" th:field="*{instructions}" id="instructions" required></textarea>
     </div>
         
         <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>

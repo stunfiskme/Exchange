@@ -1,16 +1,30 @@
 .recipe-container {
     position: absolute;
-    height: 420px;
+    height: 800px;
 top: 0;
 bottom: 0;
 left: 0;
-right: 5px;
-margin: 200px 20px 30px 300px;
+right: 0px;
+margin: 100px 30px 30px 500px;
     padding: 20px;
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 300px;
+    width: 500px;
+}
+.instructions-container{
+    position: absolute;
+    height: 600px;
+top: 0;
+bottom: 0;
+left: 0;
+right: 0px;
+margin: 200px 30px 30px 850px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 500px;
 }
 .ingredients-container h2 {
     text-align: center;
@@ -34,13 +48,19 @@ margin: 200px 20px 30px 300px;
 html ,body{
     background-color:rgba(199, 214, 225, 0.49);
 }
-#description {
-    display: block;
-    overflow: hidden;
+.scrollable-textarea {
+    width: 450px;
+    height: 480px;
     resize: none;
+    overflow: none;
+    padding: 10px; 
+    box-sizing: border-box;
 }
-#instructions {
-    display: block;
-    overflow: hidden;
+.description-textarea {
+    width: 440px;
+    height: 70px;
     resize: none;
+    overflow: none;
+    padding: 10px; 
+    box-sizing: border-box;
 }

@@ -98,7 +98,7 @@ $(document).ready(function () {
         data: JSON.stringify(payload),
         success: function (response) {
              //get the new ingredient and add it to the table
-             //console.log(response);
+             console.log(response);
              addIngredientRow(response.id, response.ingredientName, response.amount, response.unitName);
             },
         error: function (err) {

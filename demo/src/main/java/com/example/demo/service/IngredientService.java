@@ -29,9 +29,11 @@ public class IngredientService {
         newIngredients.setIngredientName(ingredientsRequestDTO.getIngredientName());
         newIngredients.setAmount(ingredientsRequestDTO.getAmount());
         newIngredients.setUnitName(ingredientsRequestDTO.getUnitName());
-        ingredientsRepository.save(newIngredients);
+        //get saved recipe id from id //the id is made there
+        Ingredients i = ingredientsRepository.save(newIngredients);
+        Long id = i.getId();
         return new IngredientView(
-            ingredientsRequestDTO.getId(),
+            id,
             ingredientsRequestDTO.getIngredientName(),
             ingredientsRequestDTO.getAmount(),
             ingredientsRequestDTO.getUnitName()

@@ -76,7 +76,16 @@
     <artifactId>bcprov-jdk15to18</artifactId>
     <version>1.70</version>
 </dependency>
-
+<dependency>
+			<groupId>jakarta.validation</groupId>
+			<artifactId>jakarta.validation-api</artifactId>
+			<version>3.0.2</version>
+		</dependency>
+		<dependency>
+    <groupId>org.hibernate.validator</groupId>
+    <artifactId>hibernate-validator</artifactId>
+    <version>8.0.0.Final</version> <!-- Use the latest version -->
+</dependency>
 		<dependency>
     <groupId>org.postgresql</groupId>
     <artifactId>postgresql</artifactId>
