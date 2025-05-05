@@ -1,13 +1,13 @@
 package com.example.demo.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
+import com.example.demo.DTO.RecipeRequestDTO;
+import com.example.demo.DTO.RecipeView;
 import com.example.demo.model.Recipe;
 import com.example.demo.repository.RecipeRepository;
 
@@ -18,25 +18,48 @@ public class RecipeService {
     @Autowired
     private RecipeRepository recipeRepository;
 
-    public Recipe saveRecipe(Recipe r){
+    public Recipe saveRecipe(RecipeRequestDTO recipeRequestDTO){
+         //create new recipe
+         Recipe r = new Recipe();
+         r.setId(recipeRequestDTO.getId());
+         r.setRecipeName(recipeRequestDTO.getRecipeName());
+         r.setDescription(recipeRequestDTO.getDescription());
+         r.setInstructions(recipeRequestDTO.getInstructions());
+         //set userId for the current Authenticated user
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         r.setUserAccount(userDetails.getUser());
         return recipeRepository.save(r);
     }
 
-    public List<Recipe> getAllRecipes(){
-        return recipeRepository.findAll();
+    public List<RecipeView> getAllRecipes(){ 
+        List<Recipe> recipes = recipeRepository.findAll();
+        return recipes.stream().map(r -> new RecipeView(
+            r.getId(),
+            r.getRecipeName(),
+            r.getInstructions(),
+            r.getDescription(),
+            r.getUserAccount().getFirstName(),
+            r.getUserAccount().getLastName()
+        )).toList();
     }
 
-    public Recipe getById(Long id) throws Exception{
-        Optional<Recipe> recipe = recipeRepository.findById(id);
-        if(recipe.isPresent()){
-        return recipe.get();
+    //get a recipe
+    public Recipe getById(Long id){
+        return recipeRepository.getReferenceById(id);
     }
-        else{
-            throw new Exception("Recipe not Found!");
-        }
+   
+
+    //create a recipeView
+    public RecipeView createRecipeView(Long id) throws Exception{
+        Recipe recipe = recipeRepository.findById(id).orElseThrow();
+        return new RecipeView(recipe.getId(),
+                                recipe.getRecipeName(),
+                                recipe.getDescription(),
+                                recipe.getInstructions(),
+                                recipe.getUserAccount().getFirstName(),
+                                recipe.getUserAccount().getLastName());
+
     }
 
     //update instructions for a recipe
