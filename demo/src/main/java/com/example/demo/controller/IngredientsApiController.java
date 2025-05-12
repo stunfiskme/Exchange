@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.DTO.IngredientView;
 import com.example.demo.DTO.IngredientsRequestDTO;
-import com.example.demo.model.Ingredients;
 import com.example.demo.service.IngredientService;
-import com.example.demo.service.RecipeService;
 
 @RestController
 @RequestMapping("/api/ingredients")

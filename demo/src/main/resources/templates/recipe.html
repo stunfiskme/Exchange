@@ -23,11 +23,12 @@
             <button class="btn btn-danger delete-recipe-btn">Delete</button>
             <br>
             <div id="description-div" style="display: inline;">
-                  <!-- Description will be appended by /js/Ingredient.js -->
+                <h4 class="editable description-cell" id="descriptionRow" style="display: inline;"  th:text="${recipe.getDescription}"
+                ></h4>
             </div>
             <button class="btn btn-primary description-update-btn" >Update</button>
-            <p>By: <span  th:text="${recipe.userAccount.getFirstName()}"></span>
-                  <span th:text="${recipe.userAccount.getLastName()}"></span>  
+            <p>By: <span  th:text="${recipe.getFirstName()}"></span>
+                  <span th:text="${recipe.getLastName()}"></span>  
             </p>
             </div>
             <input type="hidden" id="recipeId" th:value="${recipe.getId()}">
@@ -46,7 +47,7 @@
                     </div>
 <div id="instruction-div">
             <h2>Instructions <button class="btn btn-primary instruction-update-btn">Update</button></h2>
-             <!-- Instructions will be appended here by /js/recipe.js -->
+            <pre class="editable instructions-cell" id="instructionRow" style="display: inline;" th:text="${recipe.getInstructions}"></pre>
 </div>  
 </div>
 

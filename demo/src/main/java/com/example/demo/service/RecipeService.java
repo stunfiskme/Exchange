@@ -8,6 +8,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.DTO.IngredientView;
+import com.example.demo.DTO.RecipeRequestDTO;
+import com.example.demo.DTO.RecipeView;
 import com.example.demo.model.Recipe;
 import com.example.demo.repository.RecipeRepository;
 
@@ -18,17 +21,46 @@ public class RecipeService {
     @Autowired
     private RecipeRepository recipeRepository;
 
-    public Recipe saveRecipe(Recipe r){
+    //save a new recipe
+    public Recipe saveRecipe(RecipeRequestDTO r){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-        r.setUserAccount(userDetails.getUser());
-        return recipeRepository.save(r);
+        Recipe recipe = new Recipe();
+        recipe.setUserAccount(userDetails.getUser());
+        recipe.setRecipeName(r.getRecipeName());
+        recipe.setInstructions(r.getInstructions());
+        recipe.setDescription(r.getDescription());
+        return recipeRepository.save(recipe);
     }
 
-    public List<Recipe> getAllRecipes(){
-        return recipeRepository.findAll();
+    //create a list of all recipes as recipeViews
+    public List<RecipeView> getAllRecipes(){
+        List<Recipe> recipes =  recipeRepository.findAll();
+        return recipes.stream().map(r -> new RecipeView(
+            r.getId(),
+            r.getRecipeName(),
+            r.getInstructions(),
+            r.getDescription(),
+            r.getUserAccount().getFirstName(),
+            r.getUserAccount().getLastName()
+        )).toList();
     }
 
+    //create a recipe view
+    public RecipeView createRecipeView(Long id){
+        Recipe r = recipeRepository.findById(id).orElseThrow();
+        RecipeView rv = 
+        new RecipeView(
+            r.getId(), 
+            r.getRecipeName(), 
+            r.getInstructions(), 
+            r.getDescription(), 
+            r.getUserAccount().getFirstName(),
+            r.getUserAccount().getLastName());
+        return rv;
+    }
+
+    //get recipe by its id
     public Recipe getById(Long id) throws Exception{
         Optional<Recipe> recipe = recipeRepository.findById(id);
         if(recipe.isPresent()){
@@ -40,10 +72,10 @@ public class RecipeService {
     }
 
     //update instructions for a recipe
-    public Recipe patchRecipeInstructions(Long id, String instructions){
+    public void patchRecipeInstructions(Long id, String instructions){
         Recipe r = recipeRepository.findById(id).orElseThrow();
         r.setInstructions(instructions);
-        return recipeRepository.save(r);
+        recipeRepository.save(r);
     }
 
     //delete a recipe
@@ -52,9 +84,9 @@ public class RecipeService {
     }
 
     //update the description for a recipe
-    public Recipe updateDescription(Long id, String description){
+    public void updateDescription(Long id, String description){
         Recipe r = recipeRepository.findById(id).orElseThrow();
         r.setDescription(description);
-        return recipeRepository.save(r);
+        recipeRepository.save(r);
     }
 }
