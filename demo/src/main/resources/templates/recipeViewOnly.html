@@ -3,13 +3,12 @@
 <head>
     <div th:replace="~{layout :: page_head}"></div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="/js/Ingredient.js" defer></script>
-    <script src="/js/recipe.js" defer></script>
+    <script src="/js/LoadIngredient.js" defer></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="_csrf"       th:content="${_csrf.token}" />
     <meta name="_csrf_header" th:content="${_csrf.headerName}" />
-    <title>Recipe page</title>
+    <title>RecipeViewOnly page</title>
     <link rel="stylesheet" type="text/css" media="all" 
     href="/css/recipe.css" th:href="@{/css/recipe.css}" />
 </head>
@@ -20,34 +19,32 @@
 <div>
     <div class="title-div"> 
             <h1 th:text="${recipe.recipeName}" style="display: inline;"></h1>
-            <button class="btn btn-danger delete-recipe-btn">Delete</button>
             <br>
             <div id="description-div" style="display: inline;">
-                <h4 class="editable description-cell" id="descriptionRow" style="display: inline;"  th:text="${recipe.getDescription}"
+                <h4  id="descriptionRow" style="display: inline;"  th:text="${recipe.getDescription}"
                 ></h4>
             </div>
-            <button class="btn btn-primary description-update-btn" >Update</button>
             <p>By: <span  th:text="${recipe.getFirstName()}"></span>
                   <span th:text="${recipe.getLastName()}"></span>  
             </p>
             </div>
             <input type="hidden" id="recipeId" th:value="${recipe.getId()}">
- <!-- Items will be appended by /js/Ingredient.js -->
+ <!-- Items will be appended by /js/LoadIngredient.js -->
             <div class="ingredient-list">
-                <h2>Ingredients <a class="btn btn-primary" th:href="@{/addIngredients/{id}(id=${recipe.id})}">Add</a></h2> 
+                <h2>Ingredients</h2> 
                             <table id="ingredientsTable">
                                 <thead>
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <!-- Items will be appended here by /js/Ingredient.js -->
+                                    <!-- Items will be appended here by /js/LoadIngredient.js -->
                                 </tr>
                             </tbody>
                         </table>   
                     </div>
 <div id="instruction-div">
-            <h2>Instructions <button class="btn btn-primary instruction-update-btn">Update</button></h2>
-            <pre class="editable instructions-cell" id="instructionRow" style="display: inline;" th:text="${recipe.getInstructions}"></pre>
+            <h2>Instructions</h2>
+            <pre id="instructionRow" style="display: inline;" th:text="${recipe.getInstructions}"></pre>
 </div>  
 </div>
 

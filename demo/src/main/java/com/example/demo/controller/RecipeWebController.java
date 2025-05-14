@@ -1,21 +1,17 @@
 package com.example.demo.controller;
 
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.demo.DTO.RecipeRequestDTO;
 import com.example.demo.model.Recipe;
 import com.example.demo.service.IngredientService;
 import com.example.demo.service.RecipeService;
@@ -30,13 +26,23 @@ public class RecipeWebController {
     @Autowired
     private IngredientService ingredientService;
 
-    //get recipe.html
+
+    //get recipe.html ,if author/Admin, or recipeViewOnly.html if not author of recipe
     @GetMapping("/recipe/{recipe_id}")
     public String recipePage(Model model,  @PathVariable Long recipe_id) throws Exception{
-        //add handlers for null recipe
-        model.addAttribute("recipe", recipeService.getById(recipe_id));//hmmm , return a view?
-        model.addAttribute("ingredient", ingredientService.getByRecipe_id(recipe_id));//nested viewS
-        return "recipe";
+        model.addAttribute("recipe", recipeService.createRecipeView(recipe_id));
+        model.addAttribute("ingredient", ingredientService.getByRecipe_id(recipe_id));
+        //check if Admin
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean isAdmin = auth.getAuthorities().stream()
+                          .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+        if(isAdmin){
+            return "recipe";
+        }
+        if(recipeService.isUserTheAuthor(recipe_id)){
+            return "recipe";
+        }
+        return "recipeViewOnly";
     }
 
     //get recipes.html
@@ -49,14 +55,14 @@ public class RecipeWebController {
     //get add recipe page 
     @GetMapping("/addRecipe")
     public String addRecipeForm(Model model){
-        model.addAttribute("recipe", new Recipe());
+        model.addAttribute("recipe", new RecipeRequestDTO());
         return "addRecipe";
 
     }
    
     //save a recipe to db and redirect to addIngredients page
     @PostMapping("/addRecipe")
-    public String addRecipeToDb(@ModelAttribute Recipe recipe, Model model){
+    public String addRecipeToDb(@ModelAttribute RecipeRequestDTO recipe, Model model){
         Recipe r = recipeService.saveRecipe(recipe);
         Long id = r.getId();
         return  "redirect:/addIngredients/" + id;

@@ -71,53 +71,6 @@ if (isEditing) {
 
 });
 
-//get instructions
-function loadInstructions() {
-
-    //id for recipe
-    const recipeId = $('#recipeId').val();
-    //table
-    const $div = $("#instruction-div");
-
-    $.ajax({
-        url: `/api/recipes/instructions/${recipeId}`,
-        type: "GET",
-        dataType: 'text',
-        success: function (response) {
-            $div.find('#instructionRow').remove();
-                let row = '<pre class="editable instructions-cell" id="instructionRow" style="display: inline;">' +  response   + '</pre>'  
-                $('#instruction-div').append(row);
-            },
-        error: function (err) {
-            console.error('Error:', err);
-            alert('Something went wrong.');
-        }
-    });
-}
-
-//get description
-function loadDescription() {
-
-    //id for recipe
-    const recipeId = $('#recipeId').val();
-    //div for the description
-    const $div = $("#description-div");
-
-    $.ajax({
-        url: `/api/recipes/description/${recipeId}`,
-        type: "GET",
-        dataType: 'text',
-        success: function (response) {
-            $div.find('#descriptionRow').remove();
-                let row = '<h4 class="editable description-cell" id="descriptionRow" style="display: inline;">' +  response   + '</h4>';
-                $('#description-div').append(row);
-            },
-        error: function (err) {
-            console.error('Error:', err);
-            alert('Something went wrong.');
-        }
-    });
-}
 //update description
 $('body').on('click', '.description-update-btn', function (e) {
     e.preventDefault(); 
@@ -162,7 +115,5 @@ if (isEditing) {
 }
 
 });
-//load page
-loadInstructions();
-loadDescription();
+
 });
