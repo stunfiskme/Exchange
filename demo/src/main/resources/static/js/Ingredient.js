@@ -2,6 +2,7 @@ $(document).ready(function () {
     $('body').on('click', '.delete-btn', function (e) {
         e.preventDefault();
 
+        const recipeId = $('#recipeId').val();
         const button = $(this);
         const row = button.closest('tr');
         const ingredientId = $(this).data('id');
@@ -9,7 +10,7 @@ $(document).ready(function () {
         const csrfToken  = $('meta[name="_csrf"]').attr('content');
 
         $.ajax({
-            url: `/api/ingredients/${ingredientId}`,
+            url: `/api/ingredients/${ingredientId}/${recipeId}`,
             type: "DELETE",
             headers: {
                 [csrfHeader]: csrfToken
@@ -41,6 +42,7 @@ $(document).ready(function () {
         row.attr('data-editing', 'false');
         button.text('Update');
 
+        const recipeId = $('#recipeId').val();
         const id = row.data('id');
         const amount = row.find('.amount-cell').text().trim();
         const unitName = row.find('.unitName-cell').text().trim();
@@ -49,7 +51,7 @@ $(document).ready(function () {
         const payload = { id, amount, unitName, ingredientName};
 
         $.ajax({
-            url: `/api/ingredients/${ingredientId}`,
+            url: `/api/ingredients/${ingredientId}/${recipeId}`,
             type: "PUT",
             contentType: 'application/json',
             headers: {

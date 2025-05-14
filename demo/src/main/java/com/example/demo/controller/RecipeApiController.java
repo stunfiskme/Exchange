@@ -5,6 +5,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -29,6 +30,7 @@ public class RecipeApiController {
     }
 
     //update description
+    @PreAuthorize("hasRole('ADMIN') or @recipeSecurity.isOwner(#recipeId)")
     @PatchMapping("/description/{recipeId}")
     public ResponseEntity<String> updateDescription(@PathVariable Long recipeId, @RequestBody Map<String, String> description){
         String updatedDescription = description.get("description");
@@ -44,6 +46,7 @@ public class RecipeApiController {
       }
   
       //update instructions
+      @PreAuthorize("hasRole('ADMIN') or @recipeSecurity.isOwner(#recipeId)")
       @PatchMapping("/instructions/{recipeId}")
       public ResponseEntity<String> updateInstructions(@PathVariable Long recipeId, @RequestBody Map<String, String> instructions){
           String updatedInstructions = instructions.get("instructions");
@@ -52,6 +55,7 @@ public class RecipeApiController {
       }
 
     //delete a recipe
+    @PreAuthorize("hasRole('ADMIN') or @recipeSecurity.isOwner(#recipeId)")
     @DeleteMapping("/{recipeId}")
     public  ResponseEntity<String> deleteRecipe(@PathVariable Long recipeId){
         recipeService.deleteRecipe(recipeId);

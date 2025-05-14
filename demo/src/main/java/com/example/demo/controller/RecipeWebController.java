@@ -2,6 +2,9 @@ package com.example.demo.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,13 +26,23 @@ public class RecipeWebController {
     @Autowired
     private IngredientService ingredientService;
 
-    //get recipe.html
+
+    //get recipe.html ,if author/Admin, or recipeViewOnly.html if not author of recipe
     @GetMapping("/recipe/{recipe_id}")
     public String recipePage(Model model,  @PathVariable Long recipe_id) throws Exception{
-        //add handlers for null recipe
         model.addAttribute("recipe", recipeService.createRecipeView(recipe_id));
         model.addAttribute("ingredient", ingredientService.getByRecipe_id(recipe_id));
-        return "recipe";
+        //check if Admin
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean isAdmin = auth.getAuthorities().stream()
+                          .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+        if(isAdmin){
+            return "recipe";
+        }
+        if(recipeService.isUserTheAuthor(recipe_id)){
+            return "recipe";
+        }
+        return "recipeViewOnly";
     }
 
     //get recipes.html

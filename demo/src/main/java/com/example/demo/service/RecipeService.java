@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
-import com.example.demo.DTO.IngredientView;
 import com.example.demo.DTO.RecipeRequestDTO;
 import com.example.demo.DTO.RecipeView;
 import com.example.demo.model.Recipe;
@@ -44,7 +42,7 @@ public class RecipeService {
             r.getUserAccount().getFirstName(),
             r.getUserAccount().getLastName()
         )).toList();
-    }
+    }//N +1 ?????
 
     //create a recipe view
     public RecipeView createRecipeView(Long id){
@@ -89,4 +87,15 @@ public class RecipeService {
         r.setDescription(description);
         recipeRepository.save(r);
     }
+
+    //check if the user is the Author of this recipe
+public boolean isUserTheAuthor(Long recipeId) {
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+      if (!(auth.getPrincipal() instanceof CustomUserDetails)) return false;
+    CustomUserDetails user = (CustomUserDetails) auth.getPrincipal();
+    Long currentUserId = user.getId();
+    Optional<Long> author = recipeRepository.findOwnerId(recipeId);
+    return author.isPresent() && author.get().equals(currentUserId);
+}
+
 }
