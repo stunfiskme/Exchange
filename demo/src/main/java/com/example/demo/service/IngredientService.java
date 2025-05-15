@@ -8,6 +8,7 @@ import com.example.demo.DTO.IngredientView;
 import com.example.demo.DTO.IngredientsRequestDTO;
 import com.example.demo.model.Ingredients;
 import com.example.demo.repository.IngredientsRepository;
+import com.example.exception.ResourceNotFoundException;
 
 @Service
 public class IngredientService {
@@ -39,7 +40,7 @@ public class IngredientService {
     }
 
     //get all ingredients for a recipe
-     public List<IngredientView> getByRecipe_id(Long id) throws Exception{
+     public List<IngredientView> getByRecipe_id(Long id){
         List<Ingredients> ingredients = ingredientsRepository.findByRecipeId(id);
         return ingredients.stream().map(i -> new IngredientView(
             i.getId(),
@@ -51,12 +52,12 @@ public class IngredientService {
 
     //get by id
     public Ingredients getIngredient(Long id){
-        return ingredientsRepository.getReferenceById(id);
+        return ingredientsRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException( "Ingredient not found!"));
     }
 
     //update an ingredient
     public Ingredients updateIngredient(Long id, IngredientsRequestDTO ingredientDetails){
-        Ingredients ingredient = ingredientsRepository.getReferenceById(id);
+        Ingredients ingredient = ingredientsRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException( "Ingredient not found!"));
         ingredient.setAmount(ingredientDetails.getAmount());
         ingredient.setIngredientName(ingredientDetails.getIngredientName());
         ingredient.setUnitName(ingredientDetails.getUnitName());

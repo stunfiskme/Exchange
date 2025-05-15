@@ -11,6 +11,7 @@ import com.example.demo.DTO.RecipeRequestDTO;
 import com.example.demo.DTO.RecipeView;
 import com.example.demo.model.Recipe;
 import com.example.demo.repository.RecipeRepository;
+import com.example.exception.ResourceNotFoundException;
 
 import security.CustomUserDetails;
 
@@ -46,7 +47,7 @@ public class RecipeService {
 
     //create a recipe view
     public RecipeView createRecipeView(Long id){
-        Recipe r = recipeRepository.findById(id).orElseThrow();
+        Recipe r = recipeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException( "Recipe not found!"));
         RecipeView rv = 
         new RecipeView(
             r.getId(), 
@@ -59,19 +60,19 @@ public class RecipeService {
     }
 
     //get recipe by its id
-    public Recipe getById(Long id) throws Exception{
+    public Recipe getById(Long id){
         Optional<Recipe> recipe = recipeRepository.findById(id);
         if(recipe.isPresent()){
         return recipe.get();
     }
         else{
-            throw new Exception("Recipe not Found!");
+            throw new ResourceNotFoundException("Recipe not Found!");
         }
     }
 
     //update instructions for a recipe
     public void patchRecipeInstructions(Long id, String instructions){
-        Recipe r = recipeRepository.findById(id).orElseThrow();
+        Recipe r = recipeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException( "Recipe not found!"));
         r.setInstructions(instructions);
         recipeRepository.save(r);
     }
@@ -83,7 +84,7 @@ public class RecipeService {
 
     //update the description for a recipe
     public void updateDescription(Long id, String description){
-        Recipe r = recipeRepository.findById(id).orElseThrow();
+        Recipe r = recipeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException( "Recipe not found!"));
         r.setDescription(description);
         recipeRepository.save(r);
     }
@@ -95,7 +96,12 @@ public boolean isUserTheAuthor(Long recipeId) {
     CustomUserDetails user = (CustomUserDetails) auth.getPrincipal();
     Long currentUserId = user.getId();
     Optional<Long> author = recipeRepository.findOwnerId(recipeId);
-    return author.isPresent() && author.get().equals(currentUserId);
+    if(author.isPresent()){
+        return author.get().equals(currentUserId);
+    }
+        else{
+            throw new ResourceNotFoundException("Author/Recipe not Found!");
+        }
 }
 
 }

@@ -16,6 +16,8 @@ import com.example.demo.model.Recipe;
 import com.example.demo.service.IngredientService;
 import com.example.demo.service.RecipeService;
 
+import jakarta.validation.Valid;
+
 import org.springframework.ui.Model;
 
 @Controller
@@ -62,7 +64,7 @@ public class RecipeWebController {
    
     //save a recipe to db and redirect to addIngredients page
     @PostMapping("/addRecipe")
-    public String addRecipeToDb(@ModelAttribute RecipeRequestDTO recipe, Model model){
+    public String addRecipeToDb(@ModelAttribute @Valid RecipeRequestDTO recipe, Model model){
         Recipe r = recipeService.saveRecipe(recipe);
         Long id = r.getId();
         return  "redirect:/addIngredients/" + id;

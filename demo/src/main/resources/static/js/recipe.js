@@ -43,7 +43,6 @@ if (isEditing) {
 
     const instructions = row.text().trim();
     const payload = {instructions};
-    console.log(payload);
 
     $.ajax({
         url: `/api/recipes/instructions/${recipeId}`,

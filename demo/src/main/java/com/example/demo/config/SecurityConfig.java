@@ -11,6 +11,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
+
 import com.example.demo.service.UserAccountsDetailsService;
 
 @Configuration
@@ -22,6 +24,20 @@ private UserAccountsDetailsService userAccountsDetailsService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+      http.headers(headers -> headers
+      .contentSecurityPolicy(csp -> csp.policyDirectives(
+      "default-src 'self'; " +
+      "script-src 'self' https://cdn.jsdelivr.net https://code.jquery.com; " +
+      "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; " +
+      "img-src 'self' data:; " +
+      "form-action 'self'; " +
+      "frame-ancestors 'none'; " +
+      "base-uri 'self'"
+))
+    .httpStrictTransportSecurity(hsts -> hsts.includeSubDomains(true).maxAgeInSeconds(31536000))
+    .referrerPolicy(referrer -> referrer.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.NO_REFERRER))
+);
+
         return http.authorizeHttpRequests(authorize -> {
             authorize.requestMatchers("/", "/signup/**", "/recipes/**", "/css/**", "/js/**", "/recipe/**"
             , "/api/recipes/**", "/api/ingredients/**").permitAll();

@@ -7,24 +7,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RecipeRequestDTO {
-    private Long id;
-
-     @Size(min =1, max =25)
-     @NotBlank(message = "Recipe name is required")
-     @Pattern(regexp = "^[a-zA-Z0-9 ]*$", message = "Only letters, numbers, and spaces allowed")
-     private String recipeName;
+public class RecipeDescriptionDTO {
 
      @Size(min =10, max =280)
      @NotBlank(message = "Description is required")
      @Pattern(regexp = "^[a-zA-Z0-9 ]*$", message = "Only letters, numbers, and spaces allowed")
      private String description;
-
-     @Size(min =10, max =512)
-     @NotBlank(message = "Instructions are required")
-     @Pattern(regexp = "^[a-zA-Z0-9 ]*$", message = "Only letters, numbers, and spaces allowed")
-     private String instructions;
+    
 }
