@@ -14,7 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.DTO.RecipeDescriptionDTO;
+import com.example.demo.DTO.RecipeInstructionsDTO;
 import com.example.demo.service.RecipeService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/recipes")
@@ -22,35 +26,23 @@ public class RecipeApiController {
     @Autowired
     private RecipeService recipeService; 
 
-    //get description
-    @GetMapping("/description/{recipeId}")
-    public ResponseEntity<String> getDescription(@PathVariable Long recipeId) throws Exception{
-        String i = recipeService.getById(recipeId).getDescription();
-        return new ResponseEntity<String>(i, HttpStatus.OK); 
-    }
-
     //update description
     @PreAuthorize("hasRole('ADMIN') or @recipeSecurity.isOwner(#recipeId)")
     @PatchMapping("/description/{recipeId}")
-    public ResponseEntity<String> updateDescription(@PathVariable Long recipeId, @RequestBody Map<String, String> description){
-        String updatedDescription = description.get("description");
-        recipeService.updateDescription(recipeId, updatedDescription);
+    public ResponseEntity<String> updateDescription(@PathVariable Long recipeId, @RequestBody @Valid RecipeDescriptionDTO description){
+        String d = description.getDescription();
+        recipeService.updateDescription(recipeId, d);
         return new ResponseEntity<String>("Description updated successfully!", HttpStatus.OK); 
     }
 
-      //get instructions
-      @GetMapping("/instructions/{recipeId}")
-      public ResponseEntity<String> getInstructions(@PathVariable Long recipeId) throws Exception{
-          String i = recipeService.getById(recipeId).getInstructions();
-          return new ResponseEntity<String>(i, HttpStatus.OK); 
-      }
   
       //update instructions
       @PreAuthorize("hasRole('ADMIN') or @recipeSecurity.isOwner(#recipeId)")
       @PatchMapping("/instructions/{recipeId}")
-      public ResponseEntity<String> updateInstructions(@PathVariable Long recipeId, @RequestBody Map<String, String> instructions){
-          String updatedInstructions = instructions.get("instructions");
-          recipeService.patchRecipeInstructions(recipeId, updatedInstructions);
+      public ResponseEntity<String> updateInstructions
+      (@PathVariable Long recipeId, @RequestBody @Valid RecipeInstructionsDTO instructions){
+            String i = instructions.getInstructions();
+          recipeService.patchRecipeInstructions(recipeId, i);
           return new ResponseEntity<String>("Instructions updated successfully!", HttpStatus.OK); 
       }
 

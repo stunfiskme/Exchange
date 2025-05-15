@@ -101,7 +101,7 @@ $(document).ready(function () {
         success: function (response) {
              //get the new ingredient and add it to the table
              //console.log(response);
-             addIngredientRow(response.id, response.ingredientName, response.amount, response.unitName);
+             addIngredientRow(response.id, response.amount, response.unitName,  response.ingredientName);
             },
         error: function (err) {
             console.error('Error:', err);

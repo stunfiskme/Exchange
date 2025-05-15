@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.DTO.SignupRequestDTO;
 import com.example.demo.model.UserAccounts;
 import com.example.demo.repository.UserRepository;
 
@@ -27,8 +28,16 @@ public class UserAccountsDetailsService implements UserDetailsService{
 }
 
 //save and add role to user
-public UserAccounts save(UserAccounts ua) throws Exception{
+public UserAccounts save(SignupRequestDTO signupRequestDTO) throws Exception{
+  UserAccounts ua = new UserAccounts();
+  ua.setEmail(signupRequestDTO.getEmail());
+  ua.setFirstName(signupRequestDTO.getFirstName());
+  ua.setLastName(signupRequestDTO.getLastName());
+  ua.setPhoneNumber(signupRequestDTO.getPhoneNumber());
+  //set role
   ua.getRoles().add(roleService.findByName("USER"));
+  //set password
+  ua.setPassword(signupRequestDTO.getPassword());
   return userRepository.save(ua);
 }
 

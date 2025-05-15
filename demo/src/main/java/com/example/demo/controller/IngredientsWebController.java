@@ -12,7 +12,7 @@ public class IngredientsWebController {
     
     //get addIngredients page
     @GetMapping("/addIngredients/{recipe_id}")
-    public String addIngredientsForm(Model model, @PathVariable Long recipe_id) throws Exception{
+    public String addIngredientsForm(Model model, @PathVariable Long recipe_id){
         model.addAttribute("id", recipe_id);
         model.addAttribute("ingredients", new IngredientsRequestDTO());
         return "addIngredients";

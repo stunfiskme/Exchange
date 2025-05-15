@@ -19,6 +19,8 @@ import com.example.demo.DTO.IngredientView;
 import com.example.demo.DTO.IngredientsRequestDTO;
 import com.example.demo.service.IngredientService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/ingredients")
 public class IngredientsApiController {
@@ -30,15 +32,16 @@ public class IngredientsApiController {
     //add an ingredient
     @PreAuthorize("hasRole('ADMIN') or @recipeSecurity.isOwner(#recipeId)")
     @PostMapping("/{recipeId}")
-    public ResponseEntity<IngredientView> addIngredientsToDb(@RequestBody IngredientsRequestDTO ingredientsRequestDTO, @PathVariable Long recipeId) 
-    throws Exception{
-        IngredientView dto = ingredientService.addIngredients(recipeId, ingredientsRequestDTO);
-        return new ResponseEntity<>(dto, HttpStatus.OK); 
+    public ResponseEntity<IngredientView> addIngredientsToDb(
+        @RequestBody @Valid IngredientsRequestDTO ingredientsRequestDTO, @PathVariable Long recipeId) 
+        throws Exception{
+            IngredientView dto = ingredientService.addIngredients(recipeId, ingredientsRequestDTO);
+            return new ResponseEntity<>(dto, HttpStatus.OK); 
     }
     
     //get a list of all ingredients in recipe
     @GetMapping("/{recipeId}")
-    public ResponseEntity<List<IngredientView>> getIngredients(@PathVariable Long recipeId) throws Exception{
+    public ResponseEntity<List<IngredientView>> getIngredients(@PathVariable Long recipeId){
         List<IngredientView> i = ingredientService.getByRecipe_id(recipeId);
         return new ResponseEntity<>(i, HttpStatus.OK);
     }
@@ -46,9 +49,9 @@ public class IngredientsApiController {
     //update an ingredient
     @PreAuthorize("hasRole('ADMIN') or @recipeSecurity.isOwner(#recipeId)")
     @PutMapping("/{ingredient_id}/{recipeId}")
-    public ResponseEntity<String> updateIngredient(@RequestBody IngredientsRequestDTO ingredientDetails , @PathVariable Long ingredient_id, 
-    @PathVariable Long recipeId){
-        ingredientService.updateIngredient(ingredient_id, ingredientDetails);
+    public ResponseEntity<String> updateIngredient
+    (@RequestBody @Valid IngredientsRequestDTO ingredientsRequestDTO , @PathVariable Long ingredient_id, @PathVariable Long recipeId){
+        ingredientService.updateIngredient(ingredient_id, ingredientsRequestDTO);
         return new ResponseEntity<>("Ingredient updated successfully!", HttpStatus.OK); 
     }
 
