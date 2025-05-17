@@ -1,8 +1,9 @@
 package com.example.demo.controller;
 
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -64,7 +65,7 @@ public class RecipeWebController {
    
     //save a recipe to db and redirect to addIngredients page
     @PostMapping("/addRecipe")
-    public String addRecipeToDb(@ModelAttribute @Valid RecipeRequestDTO recipe, Model model){
+    public String addRecipeToDb(@ModelAttribute @Valid RecipeRequestDTO recipe) throws IOException{
         Recipe r = recipeService.saveRecipe(recipe);
         Long id = r.getId();
         return  "redirect:/addIngredients/" + id;

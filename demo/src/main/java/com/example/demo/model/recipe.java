@@ -20,6 +20,10 @@ public class Recipe{
     @Column(columnDefinition = "TEXT")
     private String instructions;
 
+    @Lob
+    private byte[] recipeImage;
+
+
     //fk to UserAccounts
     @ManyToOne
     @JoinColumn(name = "UserAccounts_id") 

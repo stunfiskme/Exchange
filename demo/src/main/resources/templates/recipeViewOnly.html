@@ -4,6 +4,7 @@
     <div th:replace="~{layout :: page_head}"></div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-vtXRMe3mGCbOeY7l30aIg8H9p3GdeSe4IFlP6G8JMa7o7lXvnz3GFKzPxzJdPfGK" crossorigin="anonymous"></script>
     <script src="/js/LoadIngredient.js" defer></script>
+    <script src="/js/LoadRecipeImage.js" defer></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="_csrf"       th:content="${_csrf.token}" />
@@ -47,7 +48,7 @@
             <pre id="instructionRow" style="display: inline;" th:text="${recipe.getInstructions}"></pre>
 </div>  
 </div>
-
+<img id="recipe-img" alt="Recipe Image" />
 </body>
 
 </html>

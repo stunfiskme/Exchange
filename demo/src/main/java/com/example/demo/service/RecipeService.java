@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,11 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.example.demo.DTO.RecipeRequestDTO;
 import com.example.demo.DTO.RecipeView;
 import com.example.demo.model.Recipe;
 import com.example.demo.repository.RecipeRepository;
 import com.example.exception.ResourceNotFoundException;
+
 
 import security.CustomUserDetails;
 
@@ -19,9 +24,15 @@ import security.CustomUserDetails;
 public class RecipeService {
     @Autowired
     private RecipeRepository recipeRepository;
+    @Autowired
+    private FileService fileService;
 
     //save a new recipe
-    public Recipe saveRecipe(RecipeRequestDTO r){
+    public Recipe saveRecipe(RecipeRequestDTO r) throws IOException{
+        //check if file is safe
+        MultipartFile file = r.getFile();  
+       fileService.checkFile(file);
+        //get user
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         Recipe recipe = new Recipe();
@@ -29,6 +40,8 @@ public class RecipeService {
         recipe.setRecipeName(r.getRecipeName());
         recipe.setInstructions(r.getInstructions());
         recipe.setDescription(r.getDescription());
+        //save image 
+        recipe.setRecipeImage(r.getFile().getBytes());
         return recipeRepository.save(recipe);
     }
 
@@ -102,6 +115,13 @@ public boolean isUserTheAuthor(Long recipeId) {
         else{
             throw new ResourceNotFoundException("Author/Recipe not Found!");
         }
+}
+
+//get the mage form the db
+@Transactional(readOnly = true)
+public byte[] getRecipeImage(Long id){
+    return recipeRepository.findRecipeImageById(id)
+    .orElseThrow(() -> new ResourceNotFoundException( "Recipe not found!"));
 }
 
 }
