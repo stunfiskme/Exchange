@@ -3,20 +3,26 @@ package com.example.demo.controller;
 
 
 import org.springframework.http.MediaType;
+
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.DTO.RecipeDescriptionDTO;
 import com.example.demo.DTO.RecipeInstructionsDTO;
+import com.example.demo.DTO.RecipeImageDTO;
 import com.example.demo.service.RecipeService;
 
 import jakarta.validation.Valid;
@@ -63,4 +69,12 @@ public class RecipeApiController {
                 .contentType(MediaType.IMAGE_JPEG)
                 .body(image);
 }
+    //update a recipeImage
+     @PreAuthorize("hasRole('ADMIN') or @recipeSecurity.isOwner(#recipeId)")
+     @PatchMapping("/recipeImage/{recipeId}")
+     public ResponseEntity<String> patchRecipeImage
+     (@PathVariable Long recipeId, @ModelAttribute @Valid RecipeImageDTO recipeImageDTO) throws IOException{
+      recipeService.updateRecipeImage(recipeId, recipeImageDTO);
+      return new ResponseEntity<String>("Image updated success!", HttpStatus.OK);
+     }
 }

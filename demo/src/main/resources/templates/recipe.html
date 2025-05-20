@@ -46,13 +46,19 @@
                             </tbody>
                         </table>   
                     </div>
-<div id="instruction-div">
-            <h2>Instructions <button class="btn btn-primary instruction-update-btn">Update</button></h2>
-            <pre class="editable instructions-cell" id="instructionRow" style="display: inline;" th:text="${recipe.getInstructions}"></pre>
-</div>  
-<img id="recipe-img" alt="Recipe Image" />
+                    <div id="instruction-div">
+                        <h2>Instructions <button class="btn btn-primary instruction-update-btn">Update</button></h2>
+                        <pre class="editable instructions-cell" id="instructionRow" style="display: inline;" th:text="${recipe.getInstructions}"></pre>
+                    </div>  
+                    <img id="recipe-img" alt="Recipe Image" />
+                    <!-- Reveal upload section -->
+                     <button class="btn btn-primary recipeImage-show-upload">Update Image</button>
+
+                     <!-- Hidden upload UI -->
+                      <div id="uploadContainer" style="display: none;">
+                        <input type="file" id="file" accept="image/png, image/jpeg">
+                         <button class="btn btn-success recipeImage-upload-btn">Upload</button>
 </div>
-
+</div>
 </body>
-
 </html>

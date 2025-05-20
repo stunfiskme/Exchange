@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.DTO.RecipeRequestDTO;
 import com.example.demo.DTO.RecipeView;
+import com.example.demo.DTO.RecipeImageDTO;
 import com.example.demo.model.Recipe;
 import com.example.demo.repository.RecipeRepository;
 import com.example.exception.ResourceNotFoundException;
@@ -117,11 +118,22 @@ public boolean isUserTheAuthor(Long recipeId) {
         }
 }
 
-//get the mage form the db
+//get the image form the db
 @Transactional(readOnly = true)
 public byte[] getRecipeImage(Long id){
     return recipeRepository.findRecipeImageById(id)
     .orElseThrow(() -> new ResourceNotFoundException( "Recipe not found!"));
 }
 
+@Transactional()
+//update an image
+public void updateRecipeImage(Long id, RecipeImageDTO recipeImageDTO) throws IOException{
+    //check if file is safe
+    MultipartFile file = recipeImageDTO.getFile();  
+    fileService.checkFile(file);
+    //update the recipeImage
+    Recipe r = recipeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException( "Recipe not found!"));
+    r.setRecipeImage(file.getBytes());
+    recipeRepository.save(r);
+}
 }

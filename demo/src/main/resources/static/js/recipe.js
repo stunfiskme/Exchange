@@ -115,5 +115,47 @@ if (isEditing) {
 
 });
 
+// 1. Show the upload section
+$('body').on('click', '.recipeImage-show-upload', function (e) {
+    e.preventDefault();
+    const container = document.getElementById('uploadContainer');
+    container.style.display = container.style.display === 'none' ? 'block' : 'none';
+});
 
+// 2. Upload the image
+$('body').on('click', '.recipeImage-upload-btn', function (e) {
+    e.preventDefault();
+
+    const recipeId = $('#recipeId').val();
+    const csrfHeader = $('meta[name="_csrf_header"]').attr('content');
+    const csrfToken  = $('meta[name="_csrf"]').attr('content');
+    const fileInput = document.getElementById('file');
+    const file = fileInput.files[0];
+
+    if (!file) {
+        alert("Please select an image.");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    $.ajax({
+        url: `/api/recipes/recipeImage/${recipeId}`,
+        type: "PATCH",
+        data: formData,
+        processData: false, 
+        contentType: false, 
+        headers: {
+            [csrfHeader]: csrfToken
+        },
+        success: function (response) {
+            alert("Upload successful");
+            // Optionally hide the upload section or refresh image
+        },
+        error: function (xhr, status, error) {
+            alert("Upload failed");
+        }
+    });
+});
 });
