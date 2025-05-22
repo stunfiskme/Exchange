@@ -29,7 +29,7 @@ private UserAccountsDetailsService userAccountsDetailsService;
       "default-src 'self'; " +
       "script-src 'self' https://cdn.jsdelivr.net https://code.jquery.com; " +
       "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; " +
-      "img-src 'self' data:; " +
+      "img-src 'self' data: blob: ; " +
       "form-action 'self'; " +
       "frame-ancestors 'none'; " +
       "base-uri 'self'"
@@ -40,7 +40,7 @@ private UserAccountsDetailsService userAccountsDetailsService;
 
         return http.authorizeHttpRequests(authorize -> {
             authorize.requestMatchers("/", "/signup/**", "/recipes/**", "/css/**", "/js/**", "/recipe/**"
-            , "/api/recipes/**", "/api/ingredients/**").permitAll();
+            , "/api/recipes/**", "/api/ingredients/**", "/aboutUs/**").permitAll();
             authorize.requestMatchers("/addRecipe").hasAnyRole("USER", "ADMIN");
             authorize.anyRequest().authenticated();
         }).formLogin(HttpSecurityFormLoginConfigurer -> {

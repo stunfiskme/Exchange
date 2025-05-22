@@ -16,4 +16,7 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long>{
     @Query("SELECT r.userAccount.id FROM Recipe r WHERE r.id = :recipeId")
     Optional<Long> findOwnerId(@Param("recipeId") Long recipeId);
 
+     @Query("SELECT r.recipeImage FROM Recipe r WHERE r.id = :recipeId")
+     Optional<byte[]> findRecipeImageById(@Param("recipeId") Long recipeId);
+
 }

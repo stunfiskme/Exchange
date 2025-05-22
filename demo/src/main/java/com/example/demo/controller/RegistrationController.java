@@ -20,6 +20,15 @@ public class RegistrationController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @GetMapping("/aboutUs")
+    public String handleAboutUs(){
+        return "aboutUs";
+    }
+    
+    @GetMapping("/login")
+    public String handleLogin(){
+        return "login";
+    }
 
     @GetMapping("/signup")
     public String signUpPage(Model model) {

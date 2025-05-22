@@ -1,6 +1,9 @@
 package com.example.demo.DTO;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -27,4 +30,7 @@ public class RecipeRequestDTO {
      @NotBlank(message = "Instructions are required")
      @Pattern(regexp = "^[a-zA-Z0-9 ]*$", message = "Only letters, numbers, and spaces allowed")
      private String instructions;
+
+     @NotNull(message = "File is required")
+     private MultipartFile file;
 }

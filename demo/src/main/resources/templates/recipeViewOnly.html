@@ -4,6 +4,7 @@
     <div th:replace="~{layout :: page_head}"></div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-vtXRMe3mGCbOeY7l30aIg8H9p3GdeSe4IFlP6G8JMa7o7lXvnz3GFKzPxzJdPfGK" crossorigin="anonymous"></script>
     <script src="/js/LoadIngredient.js" defer></script>
+    <script src="/js/LoadRecipeImage.js" defer></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="_csrf"       th:content="${_csrf.token}" />
@@ -12,11 +13,11 @@
     <link rel="stylesheet" type="text/css" media="all" 
     href="/css/recipe.css" th:href="@{/css/recipe.css}" />
 </head>
-<header>
+<body>
+    <header>
     <nav th:replace="~{layout :: page_navbar}"></nav>
 </header>
-<body>
-<div>
+<div class= "body-content">
     <div class="title-div"> 
             <h1 th:text="${recipe.recipeName}" style="display: inline;"></h1>
             <br>
@@ -30,6 +31,7 @@
             </div>
             <input type="hidden" id="recipeId" th:value="${recipe.getId()}">
  <!-- Items will be appended by /js/LoadIngredient.js -->
+   <div class = "image-div">
             <div class="ingredient-list">
                 <h2>Ingredients</h2> 
                             <table id="ingredientsTable">
@@ -41,6 +43,8 @@
                                 </tr>
                             </tbody>
                         </table>   
+                    </div>
+                     <img id="recipe-img" alt="Recipe Image" />
                     </div>
 <div id="instruction-div">
             <h2>Instructions</h2>

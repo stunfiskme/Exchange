@@ -1,0 +1,26 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+     <div th:replace="~{layout :: page_head}"></div>
+    <title>about us page</title>
+      <link rel="stylesheet" type="text/css" media="all" 
+    href="/css/aboutUs.css" th:href="@{/css/aboutUs.css}" />
+</head>
+<body>
+    <header>
+    <nav th:replace="~{layout :: page_navbar}"></nav>
+</header>
+<div  class= "paragraph-container">
+    <p class= "paragraph-context">Hi, I'm Brennan Hennety. I built this site to showcase my skills in Spring Boot development. 
+        I'm currently seeking job opportunities and excited to contribute to a great team. My resume and other info is on my linkedin.
+        https://www.linkedin.com/in/brennan-hennety-4a061a31a/</p>
+
+        <br>
+
+  <p  class= "paragraph-context">This is a recipe-sharing platform where anyone can explore, and registered users can create their own. 
+Enjoy the convenience of discovering dishes from a wide variety of cooks and crafting your own tasty creations!</p>
+<br>
+</div>
+</body>
+</html>

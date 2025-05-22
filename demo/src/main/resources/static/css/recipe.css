@@ -10,3 +10,13 @@ table {
 .title-div {
     text-align: center;
 }
+
+.image-div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+}
+
+.body-content {
+  padding: 0 40px;
+}

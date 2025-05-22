@@ -16,7 +16,7 @@
         </header> 
 <body> 
     <div class="recipe-container">
-    <form action='#' th:action="@{/addRecipe}" th:object="${recipe}" method="post">
+    <form action='#' th:action="@{/addRecipe}" th:object="${recipe}" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label for="recipeName">Recipe Name</label>
             <input type="text" th:field="*{recipeName}" id="recipeName" required>
@@ -29,6 +29,11 @@
     <div class="form-group">
         <label for="instructions">Instructions</label>
         <textarea th:field="*{instructions}" id="instructions" required></textarea>
+    </div>
+
+      <div class="form-group">
+        <label for="file">Upload Image</label>
+         <input type="file" th:field="*{file}" id="file" accept="image/png, image/jpeg" required>
     </div>
         
         <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>

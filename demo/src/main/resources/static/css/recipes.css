@@ -1,0 +1,20 @@
+ .recipe-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+
+  .recipe-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+
+  .recipe-image {
+  width: 200px;
+  height: 150px;
+  object-fit: cover;
+}
+
+.body-content {
+  padding: 0 40px;
+}
