@@ -40,7 +40,7 @@ private UserAccountsDetailsService userAccountsDetailsService;
 
         return http.authorizeHttpRequests(authorize -> {
             authorize.requestMatchers("/", "/signup/**", "/recipes/**", "/css/**", "/js/**", "/recipe/**"
-            , "/api/recipes/**", "/api/ingredients/**").permitAll();
+            , "/api/recipes/**", "/api/ingredients/**", "/aboutUs/**").permitAll();
             authorize.requestMatchers("/addRecipe").hasAnyRole("USER", "ADMIN");
             authorize.anyRequest().authenticated();
         }).formLogin(HttpSecurityFormLoginConfigurer -> {

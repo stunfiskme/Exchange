@@ -1,20 +1,23 @@
  <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{layout :: page_head}">
+<head>
+     <div th:replace="~{layout :: page_head}"></div>
     <title>Recipes page</title>
     <link rel="stylesheet" type="text/css" media="all" 
     href="/css/recipes.css" th:href="@{/css/recipes.css}" />
 </head>
 <body>
-    <nav th:replace="~{layout :: page_navbar}"></nav>
-    <a href="/addRecipe">add Recipe</a>
+    <header>
+        <nav th:replace="~{layout :: page_navbar}"></nav>
+    </header>
+    <div class ="body-content">
     <div th:switch="${Recipe}">
         <h2 th:case="null">No recipes yet!</h2>
             <div th:case="*">
                 <div class="recipe-grid">
                     <div class="recipe-item" th:each="recipe : ${Recipe}">
                         <a th:href="@{'/recipe/' + ${recipe.id}}">
-                            <img th:src="@{'/api/recipes/recipeImage/' + ${recipe.id}}" alt="Recipe Image" /> </a>
+                            <img class="recipe-image" th:src="@{'/api/recipes/recipeImage/' + ${recipe.id}}" alt="Recipe Image" /> </a>
                             <div th:text="${recipe.recipeName}">
                             </div>
                         </div>
@@ -23,5 +26,6 @@
             </div> 
         </div>     
     </div>
+</div>
 </body>
 </html>

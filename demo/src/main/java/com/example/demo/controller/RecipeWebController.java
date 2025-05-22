@@ -49,7 +49,7 @@ public class RecipeWebController {
     }
 
     //get recipes.html
-    @GetMapping("/recipes")
+     @GetMapping({"", "/"})
     public String dynamicPage(Model model) {
         model.addAttribute("Recipe", recipeService.getAllRecipes());
         return "recipes";
