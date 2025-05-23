@@ -25,7 +25,7 @@ jobs:
           distribution: 'microsoft'
 
       - name: Build with Maven
-         cd path/to/pom/directory
+         cd demo
           mvn clean install
 
       - name: Upload artifact for deployment job
